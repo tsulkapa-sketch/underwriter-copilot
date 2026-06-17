@@ -1,0 +1,108 @@
+GST RETURN SUMMARY
+GSTR-3B CONSOLIDATED STATEMENT
+Taxpayer Name   : Meridian Textile Exports Private Limited
+GSTIN           : 27AABCM7823Q1Z5
+Financial Year  : 2023-24
+Filing Status   : All quarters filed and verified
+
+
+════════════════════════════════════════════════════════════════
+QUARTERLY GST SUMMARY — FY2024
+════════════════════════════════════════════════════════════════
+
+                        Q1 FY24      Q2 FY24      Q3 FY24      Q4 FY24      TOTAL
+                        Apr-Jun 23   Jul-Sep 23   Oct-Dec 23   Jan-Mar 24
+                        ----------   ----------   ----------   ----------   -----
+
+OUTWARD SUPPLIES (SALES)
+Taxable Domestic Sales  ₹28,40,000   ₹32,60,000   ₹31,80,000   ₹34,20,000  ₹1,27,00,000
+Zero-Rated Exports      ₹62,80,000   ₹68,40,000   ₹72,20,000   ₹64,80,000  ₹2,68,20,000
+Exempt Supplies                  0            0            0            0             0
+TOTAL TURNOVER          ₹91,20,000  ₹1,01,00,000 ₹1,04,00,000  ₹99,00,000  ₹3,95,20,000
+
+GST COLLECTED
+CGST                     ₹2,55,600    ₹2,93,400    ₹2,86,200    ₹3,07,800   ₹11,43,000
+SGST                     ₹2,55,600    ₹2,93,400    ₹2,86,200    ₹3,07,800   ₹11,43,000
+IGST (Exports — Nil)             0            0            0            0             0
+TOTAL GST COLLECTED      ₹5,11,200    ₹5,86,800    ₹5,72,400    ₹6,15,600   ₹22,86,000
+
+INPUT TAX CREDIT (ITC)
+ITC on Raw Materials     ₹3,84,000    ₹4,20,000    ₹4,62,000    ₹5,04,000   ₹17,70,000
+ITC on Capital Goods       ₹84,000      ₹42,000      ₹21,000      ₹14,000    ₹1,61,000
+ITC on Services            ₹42,000      ₹48,000      ₹52,000      ₹58,000    ₹2,00,000
+TOTAL ITC                ₹5,10,000    ₹5,10,000    ₹5,35,000    ₹5,76,000   ₹21,31,000
+
+NET GST PAYABLE            ₹1,200      ₹76,800      ₹37,400      ₹39,600    ₹1,55,000
+GST Paid (Cash)            ₹1,200      ₹76,800      ₹37,400      ₹39,600    ₹1,55,000
+Outstanding                    ₹0           ₹0           ₹0           ₹0           ₹0
+
+
+════════════════════════════════════════════════════════════════
+ANNUAL RECONCILIATION
+════════════════════════════════════════════════════════════════
+
+Total Turnover as per GST Returns (FY2024)  : ₹3,95,20,000  (₹395.20 lakh)
+Total Revenue as per Audited P&L (FY2024)   : ₹3,94,82,000  (₹394.82 lakh)
+Variance (within acceptable tolerance)      : ₹38,000       (0.1%)
+Status                                      : CONSISTENT ✓
+
+Revenue stated in loan application          : ₹4,21,00,000  (₹421 lakh)
+Variance vs GST returns                     : ₹25,80,000    (₹25.8 lakh / 6.5%)
+
+⚠ THREE-WAY REVENUE COMPARISON:
+Source                    Revenue (₹ lakh)    Variance from GST
+Loan Application          421.00              +25.80 lakh (+6.5%)
+Audited P&L               394.82              -0.38 lakh  (-0.1%)
+GST Returns               395.20              Base
+ITR Filing                386.58              -8.62 lakh  (-2.2%)
+
+The GST returns and audited financials are consistent with each
+other (0.1% variance — within normal rounding/timing differences).
+The loan application revenue figure is overstated by ~₹26 lakh
+vs GST-verified turnover. ITR figure is slightly lower, likely
+due to timing of export incentive recognition.
+
+UNDERWRITER RECOMMENDATION: Use GST/Audited figure of ~₹395 lakh
+as the reliable revenue base for credit assessment, not the
+₹421 lakh stated in the application.
+
+
+════════════════════════════════════════════════════════════════
+EXPORT COMPLIANCE
+════════════════════════════════════════════════════════════════
+
+All export supplies filed as zero-rated under LUT (Letter of
+Undertaking). LUT filed for FY2024: LUT/2023-24/PUN/448821.
+No IGST paid on exports — eligible for ITC refund on inputs.
+
+ITC Refund Claims Filed (Export Refunds):
+  Q1 FY24: ₹2,84,000 — Refund received ✓
+  Q2 FY24: ₹2,96,000 — Refund received ✓
+  Q3 FY24: ₹3,12,000 — Refund received ✓
+  Q4 FY24: ₹3,24,000 — Refund pending (filed Mar 2024)
+
+Total Export Refunds Received FY2024: ₹8,92,000
+Pending Refund (Q4): ₹3,24,000
+
+NOTE: Pending Q4 refund of ₹3.24 lakh is a receivable not
+reflected in the balance sheet current assets. This provides
+modest additional liquidity post-sanction.
+
+
+════════════════════════════════════════════════════════════════
+GST COMPLIANCE TRACK RECORD
+════════════════════════════════════════════════════════════════
+
+Returns Filed On Time (FY2024)    : 12 / 12  (100%)
+Late Fees Paid                    : ₹0
+Notices Received                  : None
+Assessment Status                 : No pending scrutiny assessment
+E-Invoicing Compliance            : Yes (mandatory above ₹5 crore —
+                                    not yet applicable but voluntarily
+                                    adopted from Q3 FY2024)
+
+GST Compliance Rating             : SATISFACTORY ✓
+
+--- END OF GST RETURN SUMMARY ---
+Prepared by: Tax Consultant — M/s Kapoor & Co., Pune
+Based on GSTN portal data as of 31 March 2024

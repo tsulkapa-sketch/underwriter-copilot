@@ -1,0 +1,16 @@
+# Core LLM / RAG
+anthropic
+langchain-core
+langchain-anthropic
+langgraph
+llama-index
+llama-index-llms-anthropic
+llama-index-embeddings-huggingface
+
+# API
+fastapi
+uvicorn[standard]
+
+# Utilities
+python-dotenv
+pydantic

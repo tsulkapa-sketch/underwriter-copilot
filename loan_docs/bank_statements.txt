@@ -1,0 +1,121 @@
+BANK STATEMENT
+State Bank of India — Pune Main Branch
+Account Name    : Meridian Textile Exports Pvt. Ltd.
+Account Number  : XXXX XXXX 4821
+Account Type    : Current Account
+Statement Period: January 2024 to March 2024
+IFSC            : SBIN0001234
+Branch          : Pune Main Branch
+
+════════════════════════════════════════════════════════════════
+JANUARY 2024
+════════════════════════════════════════════════════════════════
+
+Opening Balance: ₹8,42,310
+
+Date        Description                          Debit        Credit       Balance
+----------  -----------------------------------  -----------  -----------  -----------
+02-Jan-24   NEFT — EuroFashion GmbH (Export)                 ₹14,20,000   ₹22,62,310
+04-Jan-24   SBI CC Interest Charge               ₹38,200                  ₹22,24,110
+05-Jan-24   Raw Material — Arvind Mills           ₹9,80,000                ₹12,44,110
+08-Jan-24   Salary — Staff (18 employees)         ₹4,20,000                ₹8,24,110
+10-Jan-24   NEFT — Atlantic Apparel LLC                       ₹11,60,000   ₹19,84,110
+12-Jan-24   GST Payment — Dec Quarter             ₹2,14,000                ₹17,70,110
+15-Jan-24   Freight — DHL Export Logistics        ₹1,82,000                ₹15,88,110
+18-Jan-24   Electricity — MSEDCL                    ₹42,000                ₹15,46,110
+20-Jan-24   Raw Material — Vardhman Textiles       ₹6,40,000                ₹9,06,110
+22-Jan-24   NEFT — Domestic Distributor A                      ₹3,20,000   ₹12,26,110
+25-Jan-24   SBI Vehicle Loan EMI                   ₹18,400                ₹12,07,710
+28-Jan-24   Misc Operating Expenses                ₹1,24,000                ₹10,83,710
+31-Jan-24   Cash Withdrawal                        ₹2,00,000                ₹8,83,710
+
+January Closing Balance : ₹8,83,710
+January Total Credits   : ₹29,00,000
+January Total Debits    : ₹28,58,600
+
+NOTE: SBI CC interest charge on 04-Jan reflects higher utilisation
+in December 2023 period. CC outstanding was ₹36.8 lakh in Dec-23.
+
+════════════════════════════════════════════════════════════════
+FEBRUARY 2024
+════════════════════════════════════════════════════════════════
+
+Opening Balance: ₹8,83,710
+
+Date        Description                          Debit        Credit       Balance
+----------  -----------------------------------  -----------  -----------  -----------
+02-Feb-24   NEFT — EuroFashion GmbH (Export)                 ₹12,80,000   ₹21,63,710
+05-Feb-24   Raw Material — Arvind Mills           ₹8,60,000                ₹13,03,710
+08-Feb-24   Salary — Staff (18 employees)         ₹4,20,000                ₹8,83,710
+10-Feb-24   NEFT — Atlantic Apparel LLC                       ₹10,40,000   ₹19,23,710
+12-Feb-24   SBI CC Repayment (Partial)            ₹5,00,000                ₹14,23,710
+14-Feb-24   Freight — Maersk Logistics            ₹2,10,000                ₹12,13,710
+18-Feb-24   Electricity — MSEDCL                    ₹38,000                ₹11,75,710
+20-Feb-24   Raw Material — Vardhman Textiles       ₹5,80,000                ₹5,95,710
+22-Feb-24   NEFT — Domestic Distributor B                      ₹2,80,000   ₹8,75,710
+25-Feb-24   SBI Vehicle Loan EMI                   ₹18,400                  ₹8,57,310
+26-Feb-24   Misc Operating Expenses                ₹98,000                  ₹7,59,310
+28-Feb-24   Cash Withdrawal                        ₹1,50,000                ₹6,09,310
+
+February Closing Balance : ₹6,09,310
+February Total Credits   : ₹26,00,000
+February Total Debits    : ₹28,74,400
+
+⚠ NOTE: February closing balance of ₹6.09 lakh is below the
+minimum required balance for the CC facility. No penal charge
+was levied but the account was technically non-compliant for
+3 days (26-Feb to 28-Feb).
+
+════════════════════════════════════════════════════════════════
+MARCH 2024
+════════════════════════════════════════════════════════════════
+
+Opening Balance: ₹6,09,310
+
+Date        Description                          Debit        Credit       Balance
+----------  -----------------------------------  -----------  -----------  -----------
+01-Mar-24   NEFT — EuroFashion GmbH (Export)                 ₹16,40,000   ₹22,49,310
+04-Mar-24   Raw Material — Arvind Mills          ₹10,20,000                ₹12,29,310
+06-Mar-24   NEFT — Atlantic Apparel LLC                       ₹13,20,000   ₹25,49,310
+08-Mar-24   Salary — Staff (18 employees)         ₹4,20,000                ₹21,29,310
+10-Mar-24   SBI CC Repayment (Full)              ₹31,00,000                ₹-9,70,690
+11-Mar-24   SBI CC Drawdown                                  ₹31,00,000   ₹21,29,310
+12-Mar-24   Freight — DHL Export Logistics        ₹2,40,000                ₹18,89,310
+14-Mar-24   GST Payment — Jan-Mar Quarter         ₹2,86,000                ₹16,03,310
+18-Mar-24   Electricity — MSEDCL                    ₹44,000                ₹15,59,310
+20-Mar-24   Raw Material — Vardhman Textiles       ₹7,20,000                ₹8,39,310
+22-Mar-24   NEFT — Domestic Distributor A                      ₹2,60,000   ₹10,99,310
+25-Mar-24   SBI Vehicle Loan EMI                   ₹18,400                ₹10,80,910
+28-Mar-24   Misc Operating Expenses                ₹1,10,000                ₹9,70,910
+31-Mar-24   Loan Application Fee                   ₹27,000                  ₹9,43,910
+
+March Closing Balance : ₹9,43,910
+March Total Credits   : ₹63,20,000
+March Total Debits    : ₹59,85,090
+
+NOTE: CC repayment and same-day drawdown on 10-Mar-24 suggests
+account was cycled to show clean outstanding before loan application
+submission on 12-Mar-24. This is a common practice but warrants
+underwriter attention.
+
+════════════════════════════════════════════════════════════════
+SUMMARY — Q4 FY2024 (Jan–Mar 2024)
+════════════════════════════════════════════════════════════════
+
+Total Credits (3 months)     : ₹1,18,20,000
+Total Debits (3 months)      : ₹1,17,18,090
+Average Monthly Balance      : ₹8,12,310
+Lowest Balance in Period     : ₹6,09,310  (28-Feb-24)
+
+⚠ ANOMALY FLAGS FOR UNDERWRITER ATTENTION:
+1. CC cycling on 10-Mar-24 — full repayment and same-day redrawdown
+   immediately before loan application submission
+2. February balance dropped below minimum required level for 3 days
+3. Annualised bank turnover from this account: ₹4.73 crore
+   (₹1,18,20,000 × 4 quarters)
+   Borrower stated annual bank turnover of ₹6.8 crore in application
+   — DISCREPANCY of approximately ₹2.07 crore
+
+--- END OF STATEMENT ---
+State Bank of India
+This statement is system generated and does not require a signature.

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CreditOS — Case SME-2024-00891</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 13px; background: #f5f5f0; color: #1a1a18;
+    height: 100vh; display: flex; flex-direction: column;
+  }
+  .topbar {
+    background: #fff; border-bottom: 1px solid #e5e4dc;
+    padding: 0 20px; height: 48px;
+    display: flex; align-items: center; gap: 16px; flex-shrink: 0;
+  }
+  .topbar-logo { font-size: 14px; font-weight: 600; color: #185FA5; }
+  .topbar-sep { color: #ccc; }
+  .topbar-case { font-size: 13px; color: #444; }
+  .badge { font-size: 11px; padding: 2px 8px; border-radius: 6px; background: #FAEEDA; color: #633806; font-weight: 500; }
+  .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 12px; font-size: 12px; color: #888; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #1D9E75; display: inline-block; margin-right: 4px; }
+  .main { display: grid; grid-template-columns: 1fr 420px; flex: 1; overflow: hidden; }
+
+  /* Case panel */
+  .case-panel { overflow-y: auto; padding: 20px; background: #fff; border-right: 1px solid #e5e4dc; }
+  .case-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .case-sub { font-size: 12px; color: #888; margin-bottom: 20px; }
+  .section-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #aaa; margin-bottom: 8px; margin-top: 20px; }
+  .section-label:first-of-type { margin-top: 0; }
+  .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 4px; }
+  .field { background: #f9f8f4; border-radius: 8px; padding: 10px 12px; }
+  .field-label { font-size: 11px; color: #aaa; margin-bottom: 3px; }
+  .field-value { font-size: 13px; font-weight: 500; }
+  .field-value.down { color: #A32D2D; }
+  .field-value.warn { color: #854F0B; }
+  .risk-flags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .risk-tag { font-size: 11px; padding: 3px 10px; border-radius: 20px; font-weight: 500; }
+  .risk-high { background: #FAECE7; color: #712B13; }
+  .risk-med  { background: #FAEEDA; color: #633806; }
+  .risk-low  { background: #EAF3DE; color: #27500A; }
+  .action-row { display: flex; gap: 8px; margin-top: 20px; padding-top: 16px; border-top: 1px solid #eee; }
+  .btn { padding: 7px 14px; border-radius: 7px; font-size: 12px; font-weight: 500; cursor: pointer; border: 1px solid #ddd; background: #fff; color: #333; transition: background 0.15s; }
+  .btn:hover { background: #f5f5f0; }
+  .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-primary { background: #185FA5; color: #fff; border-color: #185FA5; }
+  .btn-primary:hover { background: #0C447C; }
+  .btn-approve  { background: #1D9E75; color: #fff; border-color: #1D9E75; }
+  .btn-approve:hover { background: #15754F; }
+  .btn-decline  { background: #A32D2D; color: #fff; border-color: #A32D2D; }
+  .btn-decline:hover { background: #7A2020; }
+  .btn-conditional { background: #854F0B; color: #fff; border-color: #854F0B; }
+  .btn-conditional:hover { background: #633806; }
+  .btn-escalate { background: #555; color: #fff; border-color: #555; }
+  .btn-escalate:hover { background: #333; }
+
+  /* Copilot panel */
+  .copilot-panel { display: flex; flex-direction: column; background: #fff; overflow: hidden; }
+  .copilot-header { padding: 12px 16px; border-bottom: 1px solid #e5e4dc; display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+  .copilot-title { font-size: 13px; font-weight: 600; }
+  .copilot-meta { margin-left: auto; font-size: 11px; color: #aaa; }
+  .chat-area { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* Messages */
+  .msg { max-width: 96%; line-height: 1.6; font-size: 12.5px; }
+  .msg-bot { align-self: flex-start; background: #f5f5f0; border-radius: 12px 12px 12px 3px; padding: 12px 14px; }
+  .msg-user { align-self: flex-end; background: #E6F1FB; color: #042C53; border-radius: 12px 12px 3px 12px; padding: 10px 13px; }
+
+  /* Markdown rendering */
+  .msg-bot h1,.msg-bot h2,.msg-bot h3 { font-size: 13px; font-weight: 600; margin: 10px 0 4px; color: #185FA5; }
+  .msg-bot h1:first-child,.msg-bot h2:first-child,.msg-bot h3:first-child { margin-top: 0; }
+  .msg-bot p { margin-bottom: 6px; }
+  .msg-bot p:last-child { margin-bottom: 0; }
+  .msg-bot ul,.msg-bot ol { padding-left: 16px; margin-bottom: 6px; }
+  .msg-bot li { margin-bottom: 3px; }
+  .msg-bot strong { font-weight: 600; }
+  .msg-bot em { font-style: italic; color: #666; }
+  .msg-bot hr { border: none; border-top: 1px solid #e5e4dc; margin: 10px 0; }
+  .msg-bot table { width: 100%; border-collapse: collapse; font-size: 12px; margin: 8px 0; }
+  .msg-bot th { background: #f0efe9; text-align: left; padding: 5px 8px; font-weight: 600; border-bottom: 1px solid #ddd; }
+  .msg-bot td { padding: 4px 8px; border-bottom: 1px solid #f0efe9; vertical-align: top; }
+  .msg-bot tr:last-child td { border-bottom: none; }
+  .msg-bot blockquote { border-left: 3px solid #185FA5; padding-left: 10px; color: #666; margin: 6px 0; }
+  .msg-bot code { background: #f0efe9; padding: 1px 4px; border-radius: 3px; font-size: 11px; }
+
+  .msg-source { font-size: 11px; color: #aaa; margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
+  .source-tag { background: #f0efe9; padding: 2px 7px; border-radius: 4px; font-size: 10px; }
+
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .chip { font-size: 11px; padding: 4px 10px; border-radius: 20px; border: 1px solid #ddd; cursor: pointer; background: #fff; color: #555; transition: background 0.15s; }
+  .chip:hover { background: #f5f5f0; }
+
+  /* Typing indicator */
+  .typing-indicator { align-self: flex-start; background: #f5f5f0; border-radius: 12px; padding: 10px 14px; display: none; min-width: 240px; }
+  .typing-indicator.visible { display: block; }
+  .dots { display: flex; gap: 4px; align-items: center; margin-bottom: 4px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: #aaa; animation: blink 1.2s infinite; }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
+  .typing-status { font-size: 11px; color: #aaa; margin-top: 4px; }
+
+  /* Input */
+  .input-row { padding: 12px; border-top: 1px solid #e5e4dc; display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+  .input-row input { flex: 1; padding: 8px 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 12.5px; background: #f9f8f4; outline: none; color: #1a1a18; }
+  .input-row input:focus { border-color: #185FA5; background: #fff; }
+  .send-btn { padding: 8px 16px; border-radius: 8px; border: 1px solid #185FA5; background: #185FA5; color: #fff; font-size: 12px; cursor: pointer; font-weight: 500; }
+  .send-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .error-msg { color: #A32D2D; font-style: italic; font-size: 12px; }
+
+  /* Report sections */
+  .report-section { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px solid #e5e4dc; }
+  .report-section:last-child { border-bottom: none; margin-bottom: 0; }
+  .report-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #185FA5; margin-bottom: 6px; }
+
+  /* ── Full Analysis UI Components ─────────────────────────── */
+
+  /* Risk badge colours */
+  .rb { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .rb-HIGH   { background: #FAECE7; color: #712B13; }
+  .rb-MEDIUM { background: #FAEEDA; color: #633806; }
+  .rb-LOW    { background: #EAF3DE; color: #27500A; }
+  .rb-APPROVE            { background: #EAF3DE; color: #27500A; }
+  .rb-CONDITIONAL_APPROVE { background: #FAEEDA; color: #633806; }
+  .rb-DECLINE            { background: #FAECE7; color: #712B13; }
+  .rb-ESCALATE           { background: #f0efe9; color: #333; }
+
+  /* Analysis findings card */
+  .analysis-card { width: 100%; }
+
+  .analysis-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 14px; flex-wrap: wrap;
+  }
+  .analysis-header-title { font-size: 13px; font-weight: 700; color: #185FA5; flex: 1; }
+
+  /* Agent ratings grid */
+  .agent-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    gap: 6px; margin-bottom: 12px;
+  }
+  .agent-cell {
+    background: #fff; border: 1px solid #e5e4dc;
+    border-radius: 8px; padding: 8px; text-align: center;
+  }
+  .agent-cell-name { font-size: 10px; color: #aaa; margin-bottom: 5px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* Key metrics strip */
+  .metrics-strip {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 6px; margin-bottom: 12px;
+  }
+  .metric-cell {
+    background: #fff; border: 1px solid #e5e4dc;
+    border-radius: 8px; padding: 8px 10px;
+  }
+  .metric-label { font-size: 10px; color: #aaa; margin-bottom: 2px; }
+  .metric-value { font-size: 13px; font-weight: 600; color: #1a1a18; }
+
+  /* Lists */
+  .finding-list { list-style: none; padding: 0; margin: 0 0 10px; }
+  .finding-list li {
+    font-size: 12px; padding: 5px 0;
+    border-bottom: 1px solid #f0efe9;
+    display: flex; gap: 8px; align-items: flex-start;
+    line-height: 1.5;
+  }
+  .finding-list li:last-child { border-bottom: none; }
+  .finding-icon { flex-shrink: 0; margin-top: 1px; }
+
+  /* Contradiction row */
+  .contra-row {
+    display: flex; gap: 8px; align-items: flex-start;
+    padding: 5px 0; border-bottom: 1px solid #f0efe9; font-size: 12px;
+  }
+  .contra-row:last-child { border-bottom: none; }
+
+  /* Decision panel */
+  .decision-panel {
+    background: #fff; border: 1px solid #e5e4dc;
+    border-radius: 10px; padding: 12px; margin-top: 12px;
+  }
+  .decision-panel-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #185FA5; margin-bottom: 10px; }
+  .decision-summary { font-size: 12px; color: #555; margin-bottom: 10px; line-height: 1.5; }
+  .decision-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+  .dec-btn {
+    padding: 7px 16px; border-radius: 7px;
+    font-size: 12px; font-weight: 500; cursor: pointer;
+    border: none; transition: opacity 0.15s;
+  }
+  .dec-btn:hover { opacity: 0.85; }
+  .dec-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+  .dec-approve     { background: #1D9E75; color: #fff; }
+  .dec-conditional { background: #854F0B; color: #fff; }
+  .dec-decline     { background: #A32D2D; color: #fff; }
+  .dec-escalate    { background: #555;    color: #fff; }
+
+  /* Divider label */
+  .sub-label {
+    font-size: 10px; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.06em; color: #aaa; margin: 10px 0 6px;
+  }
+
+  /* Final report card */
+  .final-report-card { width: 100%; }
+  .final-report-header {
+    display: flex; align-items: center; gap: 8px;
+    margin-bottom: 12px; flex-wrap: wrap;
+  }
+  .final-report-title { font-size: 13px; font-weight: 700; color: #185FA5; }
+  .final-report-body { font-size: 12.5px; line-height: 1.7; white-space: pre-wrap; color: #1a1a18; }
+
+  /* Spinner for agent cells while loading */
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { width: 14px; height: 14px; border: 2px solid #e5e4dc; border-top-color: #185FA5; border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="topbar-logo">CreditOS</span>
+  <span class="topbar-sep">/</span>
+  <span class="topbar-case">SME-2024-00891</span>
+  <span class="badge" id="case-badge">Under review</span>
+  <div class="topbar-right">
+    <span><span class="status-dot"></span>Copilot active</span>
+    <span>Assigned: S. Bhutia</span>
+  </div>
+</div>
+
+<div class="main">
+  <!-- ── Left: Case panel ───────────────────────────────── -->
+  <div class="case-panel">
+    <div class="case-title">Meridian Textile Exports Pvt. Ltd.</div>
+    <div class="case-sub">Case ref: SME-2024-00891 &nbsp;·&nbsp; Submitted: 12 Mar 2024 &nbsp;·&nbsp; Term Loan + CC</div>
+
+    <div class="section-label">Borrower</div>
+    <div class="field-grid">
+      <div class="field"><div class="field-label">Entity type</div><div class="field-value">Private Limited</div></div>
+      <div class="field"><div class="field-label">Incorporated</div><div class="field-value">2014</div></div>
+      <div class="field"><div class="field-label">Industry</div><div class="field-value">Textile / Export</div></div>
+      <div class="field"><div class="field-label">Location</div><div class="field-value">MIDC Pune</div></div>
+    </div>
+
+    <div class="section-label">Loan request</div>
+    <div class="field-grid">
+      <div class="field"><div class="field-label">Term loan</div><div class="field-value">₹1.80 crore</div></div>
+      <div class="field"><div class="field-label">CC limit</div><div class="field-value">₹90 lakh</div></div>
+      <div class="field"><div class="field-label">Total exposure</div><div class="field-value">₹2.70 crore</div></div>
+      <div class="field"><div class="field-label">Tenure</div><div class="field-value">60 months</div></div>
+    </div>
+
+    <div class="section-label">Financials (FY2024)</div>
+    <div class="field-grid">
+      <div class="field"><div class="field-label">Revenue</div><div class="field-value">₹421 lakh</div></div>
+      <div class="field"><div class="field-label">Net profit</div><div class="field-value">₹34 lakh</div></div>
+      <div class="field"><div class="field-label">Net margin</div><div class="field-value down">8.1% ▼</div></div>
+      <div class="field"><div class="field-label">D/E ratio</div><div class="field-value">0.44</div></div>
+    </div>
+
+    <div class="section-label">Bureau</div>
+    <div class="field-grid">
+      <div class="field"><div class="field-label">Credit score</div><div class="field-value">74 / 100</div></div>
+      <div class="field"><div class="field-label">Risk category</div><div class="field-value warn">Medium</div></div>
+    </div>
+
+    <div class="section-label">Risk flags</div>
+    <div class="risk-flags">
+      <span class="risk-tag risk-high">Customer concentration 67%</span>
+      <span class="risk-tag risk-med">Margin compression</span>
+      <span class="risk-tag risk-med">2 unanswered enquiries</span>
+      <span class="risk-tag risk-low">Collateral adequate</span>
+    </div>
+
+    <!-- Action buttons — wire to session state -->
+    <div class="action-row">
+      <button class="btn btn-approve"     id="btn-approve"     onclick="decisionAction('approve')">Approve</button>
+      <button class="btn btn-conditional" id="btn-conditional" onclick="decisionAction('conditional_approve')">Conditional</button>
+      <button class="btn btn-decline"     id="btn-decline"     onclick="decisionAction('decline')">Decline</button>
+      <button class="btn btn-escalate"    id="btn-escalate"    onclick="decisionAction('escalate')" style="margin-left:auto">Escalate</button>
+    </div>
+    <div style="font-size:11px;color:#aaa;margin-top:8px" id="action-hint">Run Deep Analysis first to enable decisioning.</div>
+  </div>
+
+  <!-- ── Right: Copilot panel ───────────────────────────── -->
+  <div class="copilot-panel">
+    <div class="copilot-header">
+      <span class="status-dot"></span>
+      <span class="copilot-title">Underwriter Copilot</span>
+      <span class="copilot-meta" id="copilot-meta">2 docs · SME-2024-00891</span>
+    </div>
+
+    <div class="chat-area" id="chat">
+      <div class="msg msg-bot">
+        Case SME-2024-00891 loaded. I have access to the loan application and Experian bureau report. Ask me anything, or run Deep Analysis to get a full multi-agent assessment.
+        <div class="chip-row">
+          <span class="chip" onclick="ask('What are the top 3 risks?')">Top 3 risks</span>
+          <span class="chip" onclick="ask('Summarise the bureau report')">Bureau summary</span>
+          <span class="chip" onclick="ask('Does bank turnover support stated revenue?')">Bank vs revenue</span>
+          <span class="chip" onclick="ask('What collateral has been offered?')">Collateral</span>
+          <span class="chip" onclick="ask('generate case report')">Full report</span>
+          <span class="chip" onclick="runFullAnalysis()" style="border-color:#185FA5;color:#185FA5;font-weight:600">&#9889; Deep Analysis (5 agents)</span>
+        </div>
+      </div>
+      <div class="typing-indicator" id="typing">
+        <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        <div class="typing-status" id="typing-status">Thinking...</div>
+      </div>
+    </div>
+
+    <div class="input-row">
+      <input id="q-input" type="text" placeholder="Ask anything about this case..." onkeydown="if(event.key==='Enter')sendQuestion()"/>
+      <button class="send-btn" id="send-btn" onclick="sendQuestion()">Ask</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const API       = 'http://localhost:8000';
+const CASE_ID   = 'SME-2024-00891';
+
+marked.setOptions({ breaks: true, gfm: true });
+
+// ── Session state ────────────────────────────────────────────
+let _sessionActive  = false;   // true while awaiting underwriter decision
+let _progressTimer  = null;
+let _progressIdx    = 0;
+
+const PROGRESS_MSGS = [
+  '📊 Calculating financial ratios & scorecard…',
+  '🏦 Pulling bureau & CRILC data…',
+  '🔍 Running fraud model…',
+  '📄 Extracting claims from all documents…',
+  '⚖️  Running policy rules engine…',
+  '🏗️  Fetching valuation & computing LTV…',
+  '🔗 Cross-document contradiction check…',
+  '🤖 Synthesising agent findings…',
+  '⏳ Aggregating results — almost done…',
+];
+
+// ── Helpers ──────────────────────────────────────────────────
+function scrollBottom() {
+  const chat = document.getElementById('chat');
+  setTimeout(() => chat.scrollTop = chat.scrollHeight, 50);
+}
+
+function addMsg(content, type, isMarkdown) {
+  const typing = document.getElementById('typing');
+  const div = document.createElement('div');
+  div.className = `msg msg-${type}`;
+  if (isMarkdown && type === 'bot') {
+    div.innerHTML = marked.parse(content);
+  } else {
+    div.textContent = content;
+  }
+  document.getElementById('chat').insertBefore(div, typing);
+  scrollBottom();
+  return div;
+}
+
+function insertNode(node) {
+  const typing = document.getElementById('typing');
+  document.getElementById('chat').insertBefore(node, typing);
+  scrollBottom();
+}
+
+function showTyping(show, initialMsg) {
+  document.getElementById('typing').classList.toggle('visible', show);
+  document.getElementById('send-btn').disabled = show;
+  if (initialMsg) document.getElementById('typing-status').textContent = initialMsg;
+  scrollBottom();
+}
+
+function startProgress() {
+  _progressIdx = 0;
+  _progressTimer = setInterval(() => {
+    _progressIdx++;
+    const msg = PROGRESS_MSGS[_progressIdx % PROGRESS_MSGS.length];
+    document.getElementById('typing-status').textContent = msg;
+  }, 5000);
+}
+
+function stopProgress() {
+  if (_progressTimer) { clearInterval(_progressTimer); _progressTimer = null; }
+}
+
+function ask(q) {
+  document.getElementById('q-input').value = q;
+  sendQuestion();
+}
+
+function riskClass(r) {
+  if (!r) return 'rb-MEDIUM';
+  const up = r.toUpperCase();
+  if (up === 'HIGH')   return 'rb-HIGH';
+  if (up === 'LOW')    return 'rb-LOW';
+  return 'rb-MEDIUM';
+}
+
+function recClass(r) {
+  if (!r) return '';
+  const up = r.toUpperCase().replace(/ /g, '_');
+  if (up.includes('DECLINE'))     return 'rb-DECLINE';
+  if (up.includes('CONDITIONAL')) return 'rb-CONDITIONAL_APPROVE';
+  if (up.includes('APPROVE'))     return 'rb-APPROVE';
+  if (up.includes('ESCALATE'))    return 'rb-ESCALATE';
+  return '';
+}
+
+function setActionButtons(enabled) {
+  ['btn-approve','btn-conditional','btn-decline','btn-escalate'].forEach(id => {
+    document.getElementById(id).disabled = !enabled;
+  });
+  document.getElementById('action-hint').textContent = enabled
+    ? 'Analysis complete — select your decision above or in the panel below.'
+    : 'Run Deep Analysis first to enable decisioning.';
+}
+
+// ── Existing chat flow ───────────────────────────────────────
+async function sendQuestion() {
+  const input = document.getElementById('q-input');
+  const q = input.value.trim();
+  if (!q) return;
+  input.value = '';
+  addMsg(q, 'user', false);
+  showTyping(true, 'Thinking…');
+  try {
+    const detectRes = await fetch(`${API}/detect`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ question: q })
+    });
+    const detected = await detectRes.json();
+    if      (detected.type === 'report') await handleReport();
+    else if (detected.type === 'memo')   await handleMemo();
+    else                                 await handleQuery(q);
+  } catch(e) {
+    showTyping(false);
+    addMsg(`Could not reach the copilot API. Make sure api.py is running.\n${e.message}`, 'bot', false);
+    document.getElementById('send-btn').disabled = false;
+  }
+}
+
+async function handleQuery(q) {
+  const res = await fetch(`${API}/query`, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ question: q, case_id: CASE_ID })
+  });
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  const data = await res.json();
+  showTyping(false);
+  addMsg(data.answer, 'bot', true);
+  if (data.sources && data.sources.length) {
+    const d = document.createElement('div');
+    d.className = 'msg msg-bot';
+    d.innerHTML = `<div class="msg-source">${data.sources.map(s=>`<span class="source-tag">${s}</span>`).join('')}</div>`;
+    insertNode(d);
+  }
+}
+
+async function handleMemo() {
+  const res = await fetch(`${API}/memo`, { method: 'POST' });
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  const data = await res.json();
+  showTyping(false);
+  const div = document.createElement('div');
+  div.className = 'msg msg-bot';
+  div.innerHTML = '<strong style="font-size:13px">Credit Memo — Draft</strong><hr>';
+  for (const [section, content] of Object.entries(data)) {
+    const sec = document.createElement('div');
+    sec.className = 'report-section';
+    sec.innerHTML = `<div class="report-section-title">${section}</div>${marked.parse(content)}`;
+    div.appendChild(sec);
+  }
+  insertNode(div);
+}
+
+async function handleReport() {
+  const res = await fetch(`${API}/report`, { method: 'POST' });
+  if (!res.ok) throw new Error(`API error ${res.status}`);
+  const data = await res.json();
+  showTyping(false);
+  const div = document.createElement('div');
+  div.className = 'msg msg-bot';
+  div.innerHTML = '<strong style="font-size:13px">Credit Appraisal Report — Draft</strong><hr>';
+  for (const [section, content] of Object.entries(data)) {
+    const sec = document.createElement('div');
+    sec.className = 'report-section';
+    sec.innerHTML = `<div class="report-section-title">${section}</div>${marked.parse(content)}`;
+    div.appendChild(sec);
+  }
+  insertNode(div);
+}
+
+// ── Full 5-agent analysis ────────────────────────────────────
+async function runFullAnalysis() {
+  if (_sessionActive) {
+    addMsg('An analysis is already in progress. Use the decision panel below to submit your decision.', 'bot', false);
+    return;
+  }
+
+  addMsg('⚡ Starting full 5-agent deep analysis…', 'user', false);
+  showTyping(true, PROGRESS_MSGS[0]);
+  startProgress();
+
+  try {
+    const res = await fetch(`${API}/agent/full-analysis`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ question: 'full-analysis', case_id: CASE_ID })
+    });
+
+    stopProgress();
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`API ${res.status}: ${errText}`);
+    }
+
+    const data = await res.json();
+    showTyping(false);
+    _sessionActive = true;
+    setActionButtons(true);
+
+    // Update topbar badge
+    document.getElementById('case-badge').textContent = 'Awaiting decision';
+    document.getElementById('copilot-meta').textContent = 'Analysis complete · SME-2024-00891';
+
+    renderAnalysisFindings(data);
+
+  } catch(e) {
+    stopProgress();
+    showTyping(false);
+    document.getElementById('send-btn').disabled = false;
+    addMsg(`Analysis failed. Check that api.py is running and ANTHROPIC_API_KEY is set.\n\nError: ${e.message}`, 'bot', false);
+  }
+}
+
+function renderAnalysisFindings(data) {
+  const agg     = data || {};
+  const ratings = agg.agent_ratings   || {};
+  const metrics = agg.key_metrics     || {};
+  const conds   = agg.conditions      || [];
+  const warns   = agg.warnings        || [];
+  const contras = agg.contradictions  || {};
+  const rec     = agg.system_recommendation || '—';
+  const risk    = agg.overall_risk          || '—';
+  const summary = agg.executive_summary     || agg.interrupt_summary || '';
+
+  const agents = [
+    { key: 'financial',     label: 'Financial'  },
+    { key: 'bureau',        label: 'Bureau'     },
+    { key: 'contradiction', label: 'Contradiction' },
+    { key: 'policy',        label: 'Policy'     },
+    { key: 'collateral',    label: 'Collateral' },
+  ];
+
+  // ── Build card ───────────────────────────────────────────
+  const card = document.createElement('div');
+  card.className = 'msg msg-bot';
+
+  let html = `<div class="analysis-card">`;
+
+  // Header row
+  html += `<div class="analysis-header">
+    <span class="analysis-header-title">⚡ Deep Analysis — ${CASE_ID}</span>
+    <span class="rb ${riskClass(risk)}">${risk} RISK</span>
+    <span class="rb ${recClass(rec)}">${rec.replace(/_/g,' ')}</span>
+  </div>`;
+
+  // Agent ratings grid
+  html += `<div class="sub-label">Agent Ratings</div>
+  <div class="agent-grid">`;
+  agents.forEach(a => {
+    const r = ratings[a.key] || '—';
+    html += `<div class="agent-cell">
+      <div class="agent-cell-name">${a.label}</div>
+      <span class="rb ${riskClass(r)}">${r}</span>
+    </div>`;
+  });
+  html += `</div>`;
+
+  // Key metrics strip
+  const m = metrics;
+  html += `<div class="sub-label">Key Metrics</div>
+  <div class="metrics-strip">
+    <div class="metric-cell"><div class="metric-label">DSCR</div><div class="metric-value">${m.dscr ?? '—'}x</div></div>
+    <div class="metric-cell"><div class="metric-label">Credit Score</div><div class="metric-value">${m.credit_score ?? '—'} / 100</div></div>
+    <div class="metric-cell"><div class="metric-label">Blended LTV</div><div class="metric-value">${m.blended_ltv_pct != null ? m.blended_ltv_pct + '%' : '—'}</div></div>
+    <div class="metric-cell"><div class="metric-label">Bank Variance</div><div class="metric-value">${m.bank_variance_pct != null ? m.bank_variance_pct + '%' : '—'}</div></div>
+  </div>`;
+
+  // Contradictions
+  const totalC = contras.total || 0;
+  const highC  = contras.high  || 0;
+  const medC   = contras.medium || 0;
+  const lowC   = contras.low   || 0;
+  const contraItems = contras.items || [];
+  const contraSevs  = contras.severities || [];
+
+  html += `<div class="sub-label">Contradictions</div>
+  <div style="display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap">
+    <span class="rb rb-HIGH">${highC} HIGH</span>
+    <span class="rb rb-MEDIUM">${medC} MEDIUM</span>
+    <span class="rb rb-LOW">${lowC} LOW</span>
+    <span style="font-size:11px;color:#aaa;margin-left:auto">${totalC} total</span>
+  </div>`;
+
+  if (contraItems.length > 0) {
+    contraItems.forEach((c, i) => {
+      const sev = contraSevs[i] || {};
+      html += `<div class="contra-row">
+        <span class="rb ${riskClass(sev.severity || 'MEDIUM')}" style="flex-shrink:0;font-size:10px">${sev.severity || '?'}</span>
+        <div>
+          <strong>${c.field || 'Unknown'}</strong><br>
+          <span style="color:#666">${c.finding || c.values || ''}</span>
+        </div>
+      </div>`;
+    });
+  } else {
+    html += `<div style="font-size:12px;color:#aaa">No contradictions detected.</div>`;
+  }
+
+  // Conditions
+  if (conds.length > 0) {
+    html += `<div class="sub-label" style="margin-top:10px">Conditions Precedent</div>
+    <ul class="finding-list">`;
+    conds.forEach(c => {
+      const text = typeof c === 'string' ? c : (c.finding || c.description || JSON.stringify(c));
+      html += `<li><span class="finding-icon" style="color:#854F0B">▸</span><span>${text}</span></li>`;
+    });
+    html += `</ul>`;
+  }
+
+  // Warnings
+  if (warns.length > 0) {
+    html += `<div class="sub-label">Warnings</div>
+    <ul class="finding-list">`;
+    warns.forEach(w => {
+      const text = typeof w === 'string' ? w : (w.finding || w.description || JSON.stringify(w));
+      html += `<li><span class="finding-icon" style="color:#633806">⚠</span><span>${text}</span></li>`;
+    });
+    html += `</ul>`;
+  }
+
+  // Executive summary / interrupt message
+  if (summary) {
+    html += `<div class="sub-label" style="margin-top:10px">Summary for Underwriter</div>
+    <div style="font-size:12px;line-height:1.6;color:#333;background:#fff;border:1px solid #e5e4dc;border-radius:8px;padding:10px 12px;margin-bottom:10px">${summary}</div>`;
+  }
+
+  // Decision panel
+  html += `<div class="decision-panel">
+    <div class="decision-panel-title">Your Decision</div>
+    <div class="decision-summary">
+      System recommendation: <strong>${rec.replace(/_/g,' ')}</strong>.
+      Select your decision to generate the final credit decision report.
+    </div>
+    <div class="decision-btns">
+      <button class="dec-btn dec-approve"     onclick="submitDecision('approve')">✓ Approve</button>
+      <button class="dec-btn dec-conditional" onclick="submitDecision('conditional_approve')">◈ Conditional</button>
+      <button class="dec-btn dec-decline"     onclick="submitDecision('decline')">✕ Decline</button>
+      <button class="dec-btn dec-escalate"    onclick="submitDecision('escalate')">↑ Escalate</button>
+    </div>
+  </div>`;
+
+  html += `</div>`; // close analysis-card
+  card.innerHTML = html;
+  insertNode(card);
+}
+
+// ── Submit underwriter decision ──────────────────────────────
+async function submitDecision(decision) {
+  if (!_sessionActive) {
+    addMsg('No active analysis session. Run Deep Analysis first.', 'bot', false);
+    return;
+  }
+
+  const label = decision.replace(/_/g, ' ').toUpperCase();
+  addMsg(`Decision submitted: ${label}`, 'user', false);
+  showTyping(true, 'Compiling final credit decision report…');
+
+  // Disable all decision buttons to prevent double-submit
+  document.querySelectorAll('.dec-btn').forEach(b => b.disabled = true);
+  setActionButtons(false);
+
+  try {
+    const res = await fetch(`${API}/agent/full-analysis/resume`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ case_id: CASE_ID, decision: decision })
+    });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`API ${res.status}: ${errText}`);
+    }
+
+    const data = await res.json();
+    showTyping(false);
+    _sessionActive = false;
+
+    // Update topbar badge
+    const badgeEl = document.getElementById('case-badge');
+    if (decision === 'approve')              { badgeEl.textContent = 'Approved';    badgeEl.style.background = '#EAF3DE'; badgeEl.style.color = '#27500A'; }
+    else if (decision === 'decline')         { badgeEl.textContent = 'Declined';    badgeEl.style.background = '#FAECE7'; badgeEl.style.color = '#712B13'; }
+    else if (decision === 'conditional_approve') { badgeEl.textContent = 'Conditional'; badgeEl.style.background = '#FAEEDA'; badgeEl.style.color = '#633806'; }
+    else                                     { badgeEl.textContent = 'Escalated';   badgeEl.style.background = '#f0efe9'; badgeEl.style.color = '#333'; }
+
+    document.getElementById('copilot-meta').textContent = `Decision: ${label} · SME-2024-00891`;
+    document.getElementById('action-hint').textContent = `Decision recorded: ${label}.`;
+
+    renderFinalReport(data);
+
+  } catch(e) {
+    showTyping(false);
+    _sessionActive = true;
+    setActionButtons(true);
+    document.querySelectorAll('.dec-btn').forEach(b => b.disabled = false);
+    addMsg(`Could not submit decision.\n\nError: ${e.message}`, 'bot', false);
+  }
+}
+
+// Case-panel button handler — triggers analysis if not active,
+// submits decision if analysis is already in flight
+function decisionAction(decision) {
+  if (_sessionActive) {
+    submitDecision(decision);
+  } else {
+    runFullAnalysis().then(() => {
+      // After analysis loads, the in-chat decision panel is the primary CTA.
+      // The case-panel buttons are now enabled and ready.
+    });
+  }
+}
+
+function renderFinalReport(data) {
+  const report = data.final_report || 'No report content returned.';
+  const risk   = data.overall_risk || '';
+  const dec    = (data.decision || '').replace(/_/g, ' ');
+
+  const card = document.createElement('div');
+  card.className = 'msg msg-bot';
+
+  let html = `<div class="final-report-card">
+    <div class="final-report-header">
+      <span class="final-report-title">📋 Final Credit Decision Report</span>
+      <span class="rb ${recClass(data.decision || '')}">${dec}</span>
+      ${risk ? `<span class="rb ${riskClass(risk)}">${risk}</span>` : ''}
+    </div>
+    <hr style="margin-bottom:10px">
+    <div class="final-report-body">${escapeHtml(report)}</div>
+    <div style="margin-top:12px;padding-top:10px;border-top:1px solid #e5e4dc;font-size:11px;color:#aaa">
+      Decision: <strong style="color:#1a1a18">${dec}</strong> &nbsp;·&nbsp;
+      Case: ${CASE_ID} &nbsp;·&nbsp;
+      Logged to audit trail
+    </div>
+  </div>`;
+
+  card.innerHTML = html;
+  insertNode(card);
+}
+
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/\n/g, '<br>');
+}
+
+// ── Init: disable decision buttons until analysis runs ───────
+setActionButtons(false);
+</script>
+</body>
+</html>

@@ -1,0 +1,107 @@
+INCOME TAX RETURN — ACKNOWLEDGEMENT & COMPUTATION SUMMARY
+Assessment Year  : 2024-25 (Financial Year 2023-24)
+Form             : ITR-6 (Companies other than those claiming exemption)
+Filing Date      : 28 October 2024
+Acknowledgement  : ITRAK2024MH448821C
+
+ASSESSEE DETAILS
+----------------
+Name             : Meridian Textile Exports Private Limited
+PAN              : AABCM7823Q
+Registered Office: Plot 14, MIDC Industrial Area, Pune – 411019
+Nature of Business: Manufacture of Cotton Garments (NIC Code: 14101)
+Date of Incorporation: 12 March 2014
+Assessment Officer: ITO Ward 4(2), Pune
+
+
+PROFIT & LOSS SUMMARY (As filed)
+----------------------------------
+
+INCOME
+                                        FY2024          FY2023
+                                        ------          ------
+Gross Revenue from Operations         ₹3,94,82,000    ₹3,71,40,000
+Less: Returns and Discounts             ₹8,24,000       ₹6,20,000
+Net Revenue from Operations           ₹3,86,58,000    ₹3,65,20,000
+
+Other Income
+  Interest on FD                          ₹84,000         ₹62,000
+  Export Incentives (RODTEP)            ₹4,12,000       ₹3,84,000
+Total Other Income                      ₹4,96,000       ₹4,46,000
+
+TOTAL INCOME                          ₹3,91,54,000    ₹3,69,66,000
+
+
+EXPENDITURE
+Raw Material Consumed                 ₹2,18,40,000    ₹1,96,20,000
+Employee Benefit Expenses               ₹50,40,000      ₹46,80,000
+Finance Costs                            ₹8,42,000       ₹6,84,000
+Depreciation                             ₹9,20,000       ₹8,40,000
+Freight and Forwarding                  ₹24,80,000      ₹19,60,000
+Power and Fuel                           ₹5,04,000       ₹4,44,000
+Other Operating Expenses                ₹38,46,000      ₹34,20,000
+TOTAL EXPENDITURE                     ₹3,54,72,000    ₹3,16,48,000
+
+PROFIT BEFORE TAX                       ₹36,82,000      ₹53,18,000
+Less: Tax Expense                        ₹4,62,000       ₹8,24,000
+PROFIT AFTER TAX                        ₹32,20,000      ₹44,94,000
+
+
+⚠ IMPORTANT NOTE FOR LENDERS:
+Net Revenue as per ITR FY2024          : ₹3,86,58,000  (₹386.58 lakh)
+Revenue stated in loan application     : ₹4,21,00,000  (₹421 lakh)
+Variance                               : ₹34,42,000    (₹34.42 lakh)
+Variance %                             : 8.9%
+
+The difference may be attributable to:
+a) Revenue recognition timing differences
+b) Inclusion of GST in application figures vs net of GST in ITR
+c) Borrower inflation of revenue figures — requires clarification
+
+Similarly:
+Net Profit as per ITR FY2024           : ₹32,20,000    (₹32.20 lakh)
+Net Profit stated in loan application  : ₹34,00,000    (₹34 lakh)
+Variance                               : ₹1,80,000     (₹1.80 lakh)
+
+
+TAX COMPUTATION
+---------------
+Total Income (as above)               ₹3,91,54,000
+Deductions u/s 80IC (MIDC unit)       ₹18,40,000
+Taxable Income                        ₹3,73,14,000
+Tax at 22% (Section 115BAA)            ₹82,09,080
+Surcharge at 10%                        ₹8,20,908
+Health & Education Cess at 4%          ₹3,61,200
+Total Tax Liability                    ₹93,91,188
+Advance Tax Paid                       ₹89,28,000
+Self-Assessment Tax Paid                ₹4,63,188
+Balance Tax Payable                            ₹0
+
+
+DIRECTOR REMUNERATION (Disclosed)
+----------------------------------
+Vikram Mehta — Managing Director     : ₹24,00,000 per annum
+Sunita Mehta — Director              : ₹12,00,000 per annum
+Total Director Remuneration          : ₹36,00,000 per annum
+
+Note: Director remuneration is included within Employee Benefit
+Expenses above.
+
+
+CARRY FORWARD LOSSES
+--------------------
+No brought forward losses as of AY2024-25.
+No unabsorbed depreciation.
+
+
+AUDITOR DETAILS
+---------------
+Statutory Auditor: M/s Sharma & Associates, Chartered Accountants
+Audit Report Date: 15 September 2024
+Audit Opinion   : Unqualified (Clean)
+UDIN            : 24XXXXX1234567890
+
+
+--- END OF ITR SUMMARY ---
+This document is a summary extract for lending purposes.
+The complete ITR filing is available with the assessee.

@@ -1,0 +1,352 @@
+CREDIT POLICY MANUAL — SME LENDING
+Apex Commercial Bank Limited
+Policy Reference : ACB-CP-SME-2024
+Version          : 3.2
+Effective Date   : 01 April 2024
+Approved By      : Credit Committee — Board of Directors
+Next Review Date : 31 March 2025
+
+CONFIDENTIAL — FOR INTERNAL USE ONLY
+
+════════════════════════════════════════════════════════════════
+SECTION 1 — SCOPE AND APPLICABILITY
+════════════════════════════════════════════════════════════════
+
+1.1 This policy applies to all SME credit proposals where:
+    - Total borrower group exposure is between ₹25 lakh and ₹25 crore
+    - Borrower is a registered Indian entity (Pvt Ltd, LLP, Partnership, Proprietorship)
+    - Facility type includes Term Loan, Cash Credit, Letter of Credit, or Bank Guarantee
+
+1.2 Proposals outside these parameters require escalation to:
+    - Large Corporate Credit Committee (exposure > ₹25 crore)
+    - Micro Credit Team (exposure < ₹25 lakh)
+
+1.3 This policy supersedes ACB-CP-SME-2022 (Version 3.1) in its entirety.
+
+
+════════════════════════════════════════════════════════════════
+SECTION 2 — ELIGIBLE BORROWERS
+════════════════════════════════════════════════════════════════
+
+2.1 MINIMUM ELIGIBILITY CRITERIA (all must be met)
+
+    a) Years in operation       : Minimum 3 years from date of incorporation
+    b) Audited financials       : Minimum 2 years of audited financial statements
+    c) GST registration         : Mandatory for all borrowers above ₹40 lakh turnover
+    d) ITR filing               : Minimum 2 years of filed Income Tax Returns
+    e) Bureau score (commercial): Minimum 55 / 100 (Experian Commercial Score)
+    f) Bureau score (promoter)  : Minimum 650 / 900 (personal CIBIL/Experian score)
+    g) No NPA classification    : In any bank or financial institution in last 5 years
+    h) No wilful defaulter flag : In RBI CRILC or any credit bureau
+
+2.2 INELIGIBLE BORROWERS (automatic decline — no exceptions)
+
+    a) Borrowers classified as NPA, SMA-2, or written off in last 5 years
+    b) Promoters on RBI wilful defaulter list
+    c) Entities under IBC / NCLT proceedings
+    d) Borrowers with fraud flags in any bureau or bank reference
+    e) Shell companies or entities with no demonstrable business operations
+    f) Sectors on negative list (Section 8 of this policy)
+
+
+════════════════════════════════════════════════════════════════
+SECTION 3 — FINANCIAL PARAMETERS
+════════════════════════════════════════════════════════════════
+
+3.1 DEBT SERVICE COVERAGE RATIO (DSCR)
+
+    Minimum DSCR               : 1.25x (based on average of last 2 years)
+    Preferred DSCR             : 1.50x and above
+    DSCR below 1.25x           : Automatic condition — additional collateral required
+    DSCR below 1.00x           : Hard stop — proposal not eligible for sanction
+
+    DSCR Calculation:
+    DSCR = (Net Profit After Tax + Depreciation + Interest) / (Annual Debt Repayment + Interest)
+
+    Note: DSCR must be calculated using AUDITED financials, not borrower-stated figures.
+    Where audited and stated figures differ by more than 5%, audited figures must be used.
+
+3.2 LEVERAGE RATIOS
+
+    Maximum Debt/Equity ratio  : 3.0x
+    Preferred Debt/Equity      : Below 2.0x
+    Maximum Total Outside Liabilities to Net Worth (TOL/NW): 4.0x
+
+3.3 PROFITABILITY
+
+    Minimum Net Profit Margin  : 5% (average of last 2 years)
+    Declining margins          : If margin has declined more than 3 percentage points
+                                  YoY, mandatory commentary required in credit memo
+    Loss-making entity         : Not eligible unless prior 2 years were profitable
+                                  and current year loss is demonstrably one-time
+
+3.4 CURRENT RATIO
+
+    Minimum Current Ratio      : 1.20x
+    Below 1.00x                : Hard stop for working capital facilities
+
+3.5 INTEREST COVERAGE RATIO
+
+    Minimum ICR                : 2.0x
+    Below 1.5x                 : Mandatory escalation to senior credit officer
+
+
+════════════════════════════════════════════════════════════════
+SECTION 4 — EXPOSURE NORMS
+════════════════════════════════════════════════════════════════
+
+4.1 SINGLE BORROWER LIMITS
+
+    Maximum exposure — unsecured   : ₹50 lakh
+    Maximum exposure — secured     : ₹25 crore (within SME policy)
+    Exposure above ₹5 crore        : Mandatory credit committee approval
+    Exposure above ₹10 crore       : Board credit committee approval required
+
+4.2 LOAN-TO-VALUE (LTV) RATIOS
+
+    Residential property           : Maximum 75% LTV
+    Commercial / Industrial property: Maximum 65% LTV
+    Plant and machinery            : Maximum 60% of depreciated book value
+                                     or 50% of market value, whichever is lower
+    Stock and receivables          : Maximum 75% of book value (for CC limit)
+    Quoted shares                  : Maximum 50% of 6-month average market price
+
+4.3 TENURE LIMITS
+
+    Term loan — plant and machinery: Maximum 84 months (7 years)
+    Term loan — other purposes     : Maximum 60 months (5 years)
+    Cash credit / OD               : 12 months — annual renewal
+    Letter of credit               : Maximum 180 days usance
+
+4.4 PROMOTER CONTRIBUTION
+
+    Minimum promoter contribution  : 25% of project cost for new projects
+    Existing business expansion    : Assessed case by case — minimum 20%
+
+
+════════════════════════════════════════════════════════════════
+SECTION 5 — CUSTOMER CONCENTRATION RISK
+════════════════════════════════════════════════════════════════
+
+5.1 DEFINITION
+    Customer concentration is defined as the percentage of total revenue
+    attributable to the top 1, 2, or 3 customers of the borrower.
+
+5.2 THRESHOLDS
+
+    Single customer > 40% of revenue    : CONDITION — borrower must provide
+                                           written confirmation of relationship
+                                           longevity and purchase order pipeline
+
+    Top 2 customers > 60% of revenue    : CONDITION — borrower must provide
+                                           a written diversification plan with
+                                           timeline and milestones. Review at
+                                           12 months mandatory.
+
+    Top 2 customers > 75% of revenue    : HARD STOP for facilities above ₹1 crore
+                                           unless 3+ year contracts in place with
+                                           creditworthy counterparties
+
+    Export concentration (single country > 70%): Additional country risk assessment
+                                           mandatory. Hedging policy required.
+
+5.3 MITIGANTS THAT CAN OFFSET CONCENTRATION RISK
+    - Long-term purchase contracts (3+ years) with creditworthy buyers
+    - Buyer credit insurance / export credit guarantee
+    - Demonstrated history of 5+ years with the same customer
+    - Active pipeline of new customer acquisition (evidenced)
+
+
+════════════════════════════════════════════════════════════════
+SECTION 6 — COLLATERAL REQUIREMENTS
+════════════════════════════════════════════════════════════════
+
+6.1 COLLATERAL COVERAGE RATIO
+    Minimum collateral coverage    : 1.25x of total exposure
+    Preferred collateral coverage  : 1.50x and above
+
+6.2 VALUATION REQUIREMENTS
+    - All immovable property must be valued by an RBI-empanelled valuer
+    - Valuation must not be older than 6 months at time of sanction
+    - Plant and machinery: CA/engineer certificate of current value required
+    - Revaluation mandatory every 3 years during loan tenure
+
+6.3 EXISTING CHARGES
+    - Where property is already mortgaged, pari passu or second charge
+      requires prior lender NOC
+    - No second charge without first lender NOC for exposures above ₹2 crore
+
+6.4 PERSONAL GUARANTEES
+    - Mandatory from all promoters holding above 10% shareholding
+    - Net worth of guarantors must be minimum 1.5x of total exposure
+    - Joint and several guarantee required where multiple promoters
+
+
+════════════════════════════════════════════════════════════════
+SECTION 7 — BUREAU AND FRAUD CHECKS
+════════════════════════════════════════════════════════════════
+
+7.1 MANDATORY BUREAU CHECKS
+    - Commercial bureau report (Experian/CIBIL): Mandatory
+    - Promoter personal bureau (all promoters > 10% shareholding): Mandatory
+    - CERSAI search: Mandatory for all secured facilities
+    - MCA21 / ROC search: Mandatory for private limited companies
+    - CRILC check: Mandatory
+
+7.2 DPD INTERPRETATION
+    - 0 DPD in last 24 months           : Satisfactory
+    - 1 instance of 30 DPD in 24 months : Acceptable with explanation
+    - 2+ instances of 30 DPD            : Condition — restructuring history check
+    - Any 60+ DPD in last 36 months     : Hard stop
+    - Any 90+ DPD (NPA) in last 60 months: Hard stop
+
+7.3 UNANSWERED BUREAU ENQUIRIES
+    - Enquiries without sanctions in last 6 months: Explanation mandatory
+    - 3+ unanswered enquiries in 12 months: Escalation to fraud desk required
+    - Pattern of enquiries coinciding with financial stress: Red flag — enhanced DD
+
+7.4 FRAUD INDICATORS — MANDATORY INVESTIGATION
+    The following require mandatory referral to the fraud desk:
+    a) Revenue overstated by more than 10% vs GST/ITR
+    b) CC cycling (full repayment and same-day redrawdown) within 30 days
+       of loan application
+    c) Bank turnover more than 30% below stated figure in application
+    d) Round-number transactions inconsistent with business profile
+    e) Multiple lender enquiries without sanctions (possible loan stacking)
+
+
+════════════════════════════════════════════════════════════════
+SECTION 8 — SECTOR POLICY
+════════════════════════════════════════════════════════════════
+
+8.1 PREFERRED SECTORS (enhanced limits applicable)
+    - IT/ITES and technology services
+    - Healthcare and pharmaceuticals
+    - Food processing and agro-processing
+    - Renewable energy (solar, wind)
+    - Export-oriented manufacturing (subject to concentration check)
+
+8.2 STANDARD SECTORS (normal policy applies)
+    - Textile manufacturing and export      ← APPLICABLE TO THIS CASE
+    - Engineering and auto components
+    - Construction materials
+    - Retail and distribution
+    - Education and training
+
+8.3 CAUTION SECTORS (enhanced monitoring, lower LTV)
+    - Real estate development
+    - Hospitality and hotels
+    - Gems and jewellery
+    - Media and entertainment
+
+8.4 NEGATIVE LIST (not eligible — no exceptions)
+    - Tobacco and tobacco products
+    - Gambling and betting
+    - Speculative trading (commodities, forex, crypto)
+    - Arms and ammunition
+    - Entities under FEMA violation investigation
+
+
+════════════════════════════════════════════════════════════════
+SECTION 9 — CONTINGENT LIABILITIES
+════════════════════════════════════════════════════════════════
+
+9.1 All contingent liabilities must be disclosed by the borrower
+    and captured in the credit appraisal.
+
+9.2 TREATMENT OF CONTINGENT LIABILITIES
+    - Export obligations (EPCG, Advance Licence): Must be stated in memo.
+      If obligation is more than 25% of annual revenue, stress test required.
+    - Guarantees given by borrower to third parties: Included in group exposure
+    - Tax demands under appeal: Noted; provision assessment required if > ₹10 lakh
+    - Legal disputes: Law firm opinion required if claim > ₹25 lakh
+
+9.3 UNDISCLOSED CONTINGENT LIABILITIES
+    If discovered during due diligence that borrower failed to disclose
+    a material contingent liability, the proposal must be escalated to
+    the credit committee regardless of the liability amount.
+    This constitutes a negative character assessment of the promoter.
+
+⚠ NOTE ON EPCG OBLIGATIONS:
+    Export Promotion Capital Goods (EPCG) obligations represent a future
+    export commitment. Failure to meet these results in customs duty
+    recovery plus interest. For textile exporters, EPCG obligations
+    must always be captured and stress-tested.
+
+
+════════════════════════════════════════════════════════════════
+SECTION 10 — DOCUMENTATION CHECKLIST
+════════════════════════════════════════════════════════════════
+
+10.1 MANDATORY PRE-SANCTION DOCUMENTS
+    □ Loan application form (bank format)
+    □ KYC — entity (Certificate of Incorporation, PAN, GST)
+    □ KYC — promoters (PAN, Aadhaar, photographs)
+    □ Audited financial statements — last 3 years
+    □ ITR with computation — last 3 years
+    □ GST returns — last 4 quarters
+    □ Bank statements — last 12 months (all banks)
+    □ Bureau reports — entity and all promoters
+    □ Property valuation report (RBI empanelled valuer)
+    □ Search report — title clear certificate
+    □ CERSAI search report
+    □ MCA21 / ROC extract
+    □ List of directors and shareholding pattern
+    □ Projected financials — next 2 years (for term loans)
+    □ Sanction letters from existing lenders
+    □ Stock and debtor statement (for CC limits)
+    □ Personal net worth statement — all promoters
+
+10.2 SECTOR-SPECIFIC DOCUMENTS (textile exporters)
+    □ Export orders / purchase contracts from buyers
+    □ DGFT registration and IEC code
+    □ EPCG licence details and outstanding obligation
+    □ Forward contract / hedging details (if applicable)
+    □ Buyer creditworthiness — last 2 years payment history
+
+
+════════════════════════════════════════════════════════════════
+SECTION 11 — CREDIT MEMO REQUIREMENTS
+════════════════════════════════════════════════════════════════
+
+11.1 Every credit proposal must include a credit memo covering:
+    a) Executive summary — recommendation and key rationale
+    b) Borrower background and management assessment
+    c) Financial analysis with ratio table
+    d) Banking conduct assessment
+    e) Bureau assessment
+    f) Risk assessment — minimum 3 key risks with mitigants
+    g) Collateral assessment with LTV calculation
+    h) Policy compliance checklist
+    i) Conditions and covenants recommended
+    j) Monitoring triggers — events that require review
+
+11.2 MANDATORY COVENANTS FOR SME TERM LOANS
+    - Annual submission of audited financials within 6 months of year end
+    - Quarterly submission of stock and debtor statements
+    - DSCR maintenance covenant — annual review
+    - Prior approval for additional borrowing above ₹50 lakh
+    - Prior approval for promoter dividend above 30% of PAT
+    - Insurance of all assets charged to the bank
+
+
+════════════════════════════════════════════════════════════════
+SECTION 12 — APPROVAL AUTHORITY MATRIX
+════════════════════════════════════════════════════════════════
+
+Exposure                    Authority
+─────────────────────────   ──────────────────────────────────
+Up to ₹50 lakh              Branch Credit Manager
+₹50 lakh to ₹2 crore       Regional Credit Head
+₹2 crore to ₹5 crore       Zonal Credit Committee
+₹5 crore to ₹10 crore      Central Credit Committee
+Above ₹10 crore             Board Credit Committee
+
+Note: Case SME-2024-00891 (₹2.70 crore) falls under
+Zonal Credit Committee approval authority.
+
+--- END OF POLICY DOCUMENT ---
+Apex Commercial Bank Limited
+Credit Policy and Risk Management Division
+This document is classified CONFIDENTIAL.
+Unauthorised distribution is prohibited.

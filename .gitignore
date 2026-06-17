@@ -1,0 +1,30 @@
+# API keys and environment variables — never commit these
+.env
+*.env
+
+# Vector index — too large for GitHub, gets rebuilt locally
+stored_index/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.vscode/
+.idea/
+
+# Logs
+*.log
+eval_results.json

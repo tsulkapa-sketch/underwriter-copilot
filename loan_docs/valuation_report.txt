@@ -1,0 +1,199 @@
+PROPERTY VALUATION REPORT
+Registered Valuer — Immovable Property
+Valuation Reference : RV/PUN/2024/1182
+Date of Inspection  : 04 March 2024
+Date of Report      : 08 March 2024
+Valuer Name         : Mr. Ramesh Kulkarni, B.E. (Civil), FIV
+Registration No.    : IBBI/RV/06/2019/10892
+Empanelment         : RBI Approved Valuer — Apex Commercial Bank
+
+
+════════════════════════════════════════════════════════════════
+PART A — VALUATION INSTRUCTIONS
+════════════════════════════════════════════════════════════════
+
+Instructed By    : Apex Commercial Bank, SME Credit Division
+Purpose          : Mortgage valuation for loan against property
+Borrower         : Meridian Textile Exports Pvt. Ltd.
+Loan Reference   : SME-2024-00891 (Pre-sanction)
+Property Address : Plot 14, MIDC Industrial Area, Chinchwad,
+                   Pune – 411019, Maharashtra
+
+
+════════════════════════════════════════════════════════════════
+PART B — PROPERTY DETAILS
+════════════════════════════════════════════════════════════════
+
+B.1 PROPERTY IDENTIFICATION
+Type             : Industrial / Factory Premises
+Land Area        : 2,400 sq. ft. (Leasehold — MIDC)
+Built-up Area    : 8,200 sq. ft. (Ground + First Floor)
+Age of Building  : Approximately 9 years (constructed 2015)
+Structure Type   : RCC framed structure, brick infill
+Current Use      : Textile manufacturing unit — operational
+
+B.2 LOCATION ASSESSMENT
+MIDC Chinchwad is a well-established industrial zone within
+Pune Metropolitan Region. The area has:
+- Good road connectivity (National Highway 48 — 4 km)
+- Proximity to Pune International Airport (18 km)
+- Reliable power supply (dedicated MIDC feeder)
+- Industrial water supply connection
+- Active secondary market for industrial properties
+
+Location Grade   : B+ (Good industrial location)
+Demand Category  : Moderate-High (textile and light engineering
+                   units are active buyers in this micro-market)
+
+B.3 TITLE AND LEGAL
+Land Ownership   : MIDC (Maharashtra Industrial Development Corp)
+Lease Status     : 99-year lease — commenced 2012
+Lessee           : Meridian Textile Exports Pvt. Ltd.
+Lease Expiry     : 2111
+Annual Lease Rent: ₹42,000 per annum (paid — confirmed)
+Encumbrance      : Existing mortgage with State Bank of India
+                   (outstanding approximately ₹22 lakh)
+CERSAI Search    : Charge registered in favour of SBI
+Title Search     : Clear — no disputed ownership
+MCA Search       : No court attachment orders
+
+
+════════════════════════════════════════════════════════════════
+PART C — MACHINERY VALUATION
+════════════════════════════════════════════════════════════════
+
+C.1 MACHINERY INVENTORY (as inspected)
+
+Item                              Purchase    Age      Dep.    Current
+                                  Value (₹)   (Yrs)    Rate    Value (₹)
+────────────────────────────────  ----------  -------  ------  ----------
+Sulzer Weaving Machines (6 nos)   82,00,000   8        15%     19,68,000
+Warping Machine (1 no)            18,00,000   8        15%      4,32,000
+Sizing Machine (1 no)             22,00,000   6        15%      7,72,800
+Cutting and Stitching Line        14,00,000   5        15%      6,21,300
+Compressor and Utilities           8,00,000   7        15%      2,66,000
+Yarn Winding Machines (4 nos)     12,00,000   9        15%      2,37,000
+Electrical Fittings and Wiring     6,00,000   9        10%      2,54,200
+Misc. Equipment and Tools          4,00,000   Various  20%      1,20,000
+────────────────────────────────  ----------  -------  ------  ----------
+TOTAL                            1,66,00,000                   46,71,300
+
+C.2 MACHINERY CONDITION ASSESSMENT
+Overall condition: FAIR to GOOD
+- Sulzer weaving machines are dated (8 years) but operational
+- The proposed term loan of ₹1.80 crore is specifically for
+  machinery upgrade — replacement of Sulzer looms with
+  modern Picanol or Toyota rapier looms
+- Post-upgrade machinery value estimated at ₹2.10 crore
+  (basis market quotes provided by borrower)
+
+C.3 MACHINERY VALUATION NOTE
+Current depreciated value of existing machinery: ₹46,71,300
+Post-upgrade estimated value (new machinery)   : ₹2,10,00,000
+The bank's charge will be on new machinery post-disbursement.
+
+
+════════════════════════════════════════════════════════════════
+PART D — VALUATION METHODOLOGY
+════════════════════════════════════════════════════════════════
+
+D.1 IMMOVABLE PROPERTY — THREE APPROACHES USED
+
+APPROACH 1 — COMPARABLE SALES METHOD
+Recent transactions in MIDC Chinchwad industrial zone:
+
+Transaction     Area (sqft)  Rate/sqft   Total (₹)    Date
+─────────────   ──────────   ─────────   ──────────   ──────
+T1 — Plot 8     7,800        ₹3,800      2,96,40,000  Nov 23
+T2 — Plot 22    9,100        ₹3,650      3,32,15,000  Aug 23
+T3 — Plot 31    8,400        ₹3,750      3,15,00,000  Jan 24
+Subject prop    8,200        ₹3,720      3,05,04,000  (derived)
+
+Comparable Sales Value: ₹3,05,04,000 (say ₹3.05 crore)
+
+APPROACH 2 — DEPRECIATED REPLACEMENT COST METHOD
+Land value (leasehold capitalised)     : ₹68,00,000
+Building replacement cost              : ₹3,28,00,000
+Less: depreciation (9 years at 2%/yr) : ₹59,04,000
+Depreciated building value             : ₹2,68,96,000
+Total DRC value                        : ₹3,36,96,000 (say ₹3.37 crore)
+
+APPROACH 3 — INCOME CAPITALISATION
+Estimated monthly rental (industrial)  : ₹1,85,000 per month
+Annual rental income                   : ₹22,20,000
+Capitalisation rate (industrial, Pune) : 7.5%
+Capitalised value                      : ₹2,96,00,000 (say ₹2.96 crore)
+
+RECONCILIATION
+Comparable Sales        : ₹3.05 crore  (weight: 50%)
+Depreciated Cost        : ₹3.37 crore  (weight: 30%)
+Income Capitalisation   : ₹2.96 crore  (weight: 20%)
+
+Weighted Average        : ₹3.12 crore
+
+
+════════════════════════════════════════════════════════════════
+PART E — FINAL VALUATION SUMMARY
+════════════════════════════════════════════════════════════════
+
+IMMOVABLE PROPERTY
+Market Value (Fair Value)          : ₹3,12,00,000  (₹3.12 crore)
+Distress / Forced Sale Value       : ₹2,49,60,000  (₹2.50 crore)
+(Distress value = 80% of market value — standard for industrial)
+
+PLANT AND MACHINERY (existing)
+Current Depreciated Value          : ₹46,71,300
+Forced Sale Value                  : ₹28,02,780  (60% — machinery liquidity discount)
+
+PLANT AND MACHINERY (post-upgrade — new)
+Estimated Value (on sanction)      : ₹2,10,00,000
+Forced Sale Value                  : ₹1,26,00,000  (60%)
+
+TOTAL COLLATERAL SUMMARY
+
+Security                           Market Value    Forced Sale Value
+─────────────────────────────────  ────────────    ─────────────────
+Factory premises (MIDC Pune)       ₹3,12,00,000    ₹2,49,60,000
+New machinery (post-disbursement)  ₹2,10,00,000    ₹1,26,00,000
+─────────────────────────────────  ────────────    ─────────────────
+TOTAL                              ₹5,22,00,000    ₹3,75,60,000
+
+Proposed loan exposure             : ₹2,70,00,000
+Collateral coverage (market value) : 1.93x  ✓ (above 1.25x minimum)
+Collateral coverage (forced sale)  : 1.39x  ✓ (above 1.25x minimum)
+
+LTV — Factory (primary security)   : 86.5%  ⚠ (above 65% policy limit)
+LTV — All collateral (blended)     : 51.7%  ✓ (acceptable on blended basis)
+
+⚠ LTV NOTE: The factory premises LTV of 86.5% against the 65% policy
+limit for commercial/industrial property appears high. However, the
+blended LTV including new machinery is 51.7% which is within policy.
+The existing SBI charge of ₹22 lakh outstanding reduces the net
+available security from the factory to approximately ₹2.90 crore
+(market value net of existing charge).
+
+NET AVAILABLE SECURITY (after existing SBI charge)
+Factory net of SBI charge          : ₹2,90,00,000
+New machinery                      : ₹2,10,00,000
+Net available security             : ₹5,00,00,000
+Net LTV (blended)                  : 54.0%  ✓
+
+
+════════════════════════════════════════════════════════════════
+PART F — VALUER CERTIFICATION
+════════════════════════════════════════════════════════════════
+
+I, Ramesh Kulkarni, registered valuer (IBBI Reg. No. IBBI/RV/06/2019/10892),
+hereby certify that:
+
+1. I have physically inspected the property on 04 March 2024
+2. The valuation has been conducted as per IBBI Valuation Standards
+3. I have no conflict of interest with the borrower or the bank
+4. The values stated represent my independent professional opinion
+5. This report is valid for 6 months from the date of inspection
+
+Signature: R. Kulkarni
+Date      : 08 March 2024
+Seal      : [Registered Valuer Seal]
+
+--- END OF VALUATION REPORT ---

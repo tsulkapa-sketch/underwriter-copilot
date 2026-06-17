@@ -1,0 +1,83 @@
+CREDIT INFORMATION REPORT
+EXPERIAN INDIA — COMMERCIAL BUREAU
+Report Date: 14 March 2024
+Reference  : EXP-COM-2024-448821
+
+SUBJECT ENTITY
+--------------
+Company Name : Meridian Textile Exports Pvt. Ltd.
+PAN          : AABCM7823Q
+Report Type  : Commercial Credit Report
+Requested By : (Lender Reference — SME-2024-00891)
+
+
+COMMERCIAL CREDIT SCORE
+-----------------------
+Score        : 74 / 100
+Risk Category: MEDIUM
+Interpretation: Borrower has a satisfactory credit history with minor
+irregularities. Recommend standard due diligence before sanction.
+
+
+CREDIT FACILITIES SUMMARY
+--------------------------
+
+Lender              Type              Sanctioned   Outstanding  Status     DPD History
+---------           --------          ----------   -----------  ------     -----------
+SBI Pune            Cash Credit       ₹40 lakh     ₹31 lakh    STANDARD   0-0-0-0-0-0
+SBI Pune            Vehicle Loan      ₹9 lakh      ₹3.1 lakh   STANDARD   0-0-0-0-0-0
+HDFC Bank           Working Capital   ₹25 lakh     CLOSED       CLOSED     0-0-30-0-0-0
+Tata Capital        Equipment Loan    ₹18 lakh     CLOSED       CLOSED     0-0-0-0-0-0
+
+DPD = Days Past Due per month (last 6 months shown). 0 = no delay.
+30 = one instance of 30+ day delay (HDFC Working Capital, March 2023 — now closed).
+
+
+ADVERSE MARKERS
+---------------
+1. 30+ Day Delay — HDFC Bank Working Capital Loan
+   Date        : March 2023
+   Amount      : ₹25 lakh facility (overdue amount not specified in record)
+   Current Status: Account closed in full — August 2023
+   Classification: Minor irregularity — isolated incident
+
+No write-offs, no NPA classification, no suits filed, no wilful defaulter flag.
+
+
+ENQUIRY HISTORY (Last 12 Months)
+---------------------------------
+Date          Lender              Purpose
+----------    ------              -------
+14-Mar-2024   (Current lender)    Term Loan + CC
+02-Nov-2023   Kotak Mahindra Bank Working Capital (no sanction recorded)
+15-Jun-2023   SIDBI               MSME Loan (no sanction recorded)
+
+Note: 2 enquiries without corresponding sanctions in last 12 months.
+This may indicate declined applications or borrower withdrawal — recommend
+clarification from applicant.
+
+
+DIRECTOR / PROMOTER BUREAU (Personal)
+--------------------------------------
+Vikram Mehta — PAN: BBBPM4412R
+  Personal Credit Score : 761 / 900
+  Active Facilities     : Home Loan (SBI) — Regular; Credit Card (HDFC) — Regular
+  Adverse Markers       : None
+
+Sunita Mehta — PAN: CCCPM9921S
+  Personal Credit Score : 748 / 900
+  Active Facilities     : Credit Card (ICICI) — Regular
+  Adverse Markers       : None
+
+
+BUREAU SUMMARY ASSESSMENT
+--------------------------
+- Company has maintained standard classification on all current facilities
+- One historical 30-day delay (March 2023) on a now-closed HDFC facility
+- Promoter personal scores are healthy (748–761 range)
+- Two unanswered enquiries in last 12 months warrant discussion
+- Overall profile is acceptable for medium-ticket SME lending with standard covenants
+
+--- END OF REPORT ---
+Experian Information Solutions India Pvt. Ltd.
+This report is confidential and intended solely for the requesting lender.
