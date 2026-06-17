@@ -161,11 +161,30 @@ async def full_analysis(request: QueryRequest):
 
     result, graph, config = run_full_analysis(case_id)
 
-    # Extract interrupt value if graph paused
-    # LangGraph returns Interrupt objects with a .value attribute (not subscriptable dicts)
-    interrupt_summary = None
-    if result.get("__interrupt__"):
-        interrupt_summary = result["__interrupt__"][0].value
+    aggregated     = result.get("aggregated", {})
+    routing_path   = result.get("routing_path", "human_review")
+    routing_reason = result.get("routing_reason", "")
+
+    # ── Auto-routed: graph ran to completion without human interrupt ──────────
+    # Happens for: auto_decline_bureau, auto_decline_policy, fast_track_approve, escalate
+    if not result.get("__interrupt__"):
+        return {
+            "case_id":               case_id,
+            "status":                "auto_routed",
+            "routing_path":          routing_path,
+            "routing_reason":        routing_reason,
+            "system_recommendation": aggregated.get("system_recommendation"),
+            "overall_risk":          aggregated.get("overall_risk"),
+            "agent_ratings":         aggregated.get("agent_ratings", {}),
+            "key_metrics":           aggregated.get("key_metrics", {}),
+            "executive_summary":     aggregated.get("executive_summary"),
+            "decision":              result.get("underwriter_decision", "").upper(),
+            "final_report":          result.get("final_report", ""),
+            "message": f"Case auto-routed via {routing_path.upper()}. No human review required.",
+        }
+
+    # ── Standard path: graph paused at human_review ───────────────────────────
+    interrupt_summary = result["__interrupt__"][0].value
 
     # Store session for resume
     _active_sessions[case_id] = {
@@ -174,27 +193,26 @@ async def full_analysis(request: QueryRequest):
         "state":  result,
     }
 
-    aggregated = result.get("aggregated", {})
-
     return {
-        "case_id":              case_id,
-        "status":               "awaiting_decision",
+        "case_id":               case_id,
+        "status":                "awaiting_decision",
+        "routing_path":          "human_review",
         "system_recommendation": aggregated.get("system_recommendation"),
-        "overall_risk":         aggregated.get("overall_risk"),
-        "agent_ratings":        aggregated.get("agent_ratings", {}),
-        "key_metrics":          aggregated.get("key_metrics", {}),
-        "executive_summary":    aggregated.get("executive_summary"),
-        "conditions":           aggregated.get("conditions", []),
-        "warnings":             aggregated.get("warnings", []),
+        "overall_risk":          aggregated.get("overall_risk"),
+        "agent_ratings":         aggregated.get("agent_ratings", {}),
+        "key_metrics":           aggregated.get("key_metrics", {}),
+        "executive_summary":     aggregated.get("executive_summary"),
+        "conditions":            aggregated.get("conditions", []),
+        "warnings":              aggregated.get("warnings", []),
         "contradictions": {
-            "total":  result.get("contradiction", {}).get("key_metrics", {}).get("total", 0),
-            "high":   result.get("contradiction", {}).get("key_metrics", {}).get("high", 0),
-            "medium": result.get("contradiction", {}).get("key_metrics", {}).get("medium", 0),
-            "low":    result.get("contradiction", {}).get("key_metrics", {}).get("low", 0),
-            "items":  result.get("contradiction", {}).get("contradictions", []),
+            "total":      result.get("contradiction", {}).get("key_metrics", {}).get("total", 0),
+            "high":       result.get("contradiction", {}).get("key_metrics", {}).get("high", 0),
+            "medium":     result.get("contradiction", {}).get("key_metrics", {}).get("medium", 0),
+            "low":        result.get("contradiction", {}).get("key_metrics", {}).get("low", 0),
+            "items":      result.get("contradiction", {}).get("contradictions", []),
             "severities": result.get("contradiction", {}).get("severities", []),
         },
-        "interrupt_summary":    interrupt_summary,
+        "interrupt_summary": interrupt_summary,
         "message": (
             "Analysis complete. Review findings and POST to "
             "/agent/full-analysis/resume with your decision."

@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Underwriter Copilot — System Architecture</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f7f7f5; padding: 32px 20px; color: #1a1a18; }
+  .diagram { max-width: 900px; margin: 0 auto; }
+  .title { font-size: 17px; font-weight: 700; text-align: center; margin-bottom: 4px; }
+  .subtitle { font-size: 12px; color: #888; text-align: center; margin-bottom: 28px; }
+
+  .layer-wrap { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 10px; }
+  .layer-label { width: 88px; min-width: 88px; font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #999; padding-top: 12px; text-align: right; line-height: 1.3; }
+  .layer-body { flex: 1; }
+
+  .box { border-radius: 8px; padding: 10px 14px; font-size: 12px; font-weight: 600; display: flex; flex-direction: column; gap: 3px; }
+  .box-sub { font-size: 10px; font-weight: 400; opacity: 0.75; }
+  .box-full { width: 100%; }
+  .box-row { display: flex; gap: 8px; }
+  .box-row .box { flex: 1; }
+
+  .c-ui     { background: #E8F0FE; color: #1a3a7a; border: 1.5px solid #c5d5f8; }
+  .c-api    { background: #E3F2FD; color: #0d47a1; border: 1.5px solid #b8d9f5; }
+  .c-orch   { background: #EDE7F6; color: #4527A0; border: 1.5px solid #cfc2f0; }
+  .c-agent  { background: #FFF3E0; color: #6D3B00; border: 1.5px solid #f5d99a; }
+  .c-l1     { background: #FCE4EC; color: #880E4F; border: 1.5px solid #f5b8ce; }
+  .c-l2     { background: #E8F5E9; color: #1B5E20; border: 1.5px solid #b2dab6; }
+  .c-l3     { background: #FFF8E1; color: #6D4C00; border: 1.5px solid #f0d988; }
+  .c-human  { background: #F3E5F5; color: #4A148C; border: 2px dashed #ce93d8; }
+  .c-decline{ background: #FFEBEE; color: #B71C1C; border: 1.5px solid #ef9a9a; }
+  .c-approve{ background: #E8F5E9; color: #1B5E20; border: 1.5px solid #a5d6a7; }
+  .c-escalat{ background: #FFF3E0; color: #E65100; border: 1.5px dashed #ffb74d; }
+
+  .routing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 6px; }
+  .routing-label { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 2px; }
+  .priority-tag { display: inline-block; font-size: 8px; font-weight: 700; background: rgba(0,0,0,0.07); border-radius: 10px; padding: 1px 5px; margin-left: 4px; vertical-align: middle; }
+  .c-report { background: #E0F2F1; color: #004D40; border: 1.5px solid #80cbc4; }
+
+  .arrow { display: flex; justify-content: center; align-items: center; height: 22px; color: #aaa; font-size: 16px; }
+  .arrow-label { font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #bbb; margin-left: 6px; }
+
+  .fork { display: flex; justify-content: center; margin: 2px 0; }
+  .fork-line { width: 82%; height: 2px; background: #ccc; border-radius: 1px; }
+
+  .fan-label { display: flex; justify-content: center; margin-bottom: 4px; }
+  .fan-label span { font-size: 9px; color: #aaa; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; }
+
+  .interrupt-badge { display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; background: #F3E5F5; color: #7B1FA2; border: 1.5px dashed #ba68c8; border-radius: 20px; padding: 2px 8px; margin-top: 3px; align-self: flex-start; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px; justify-content: center; padding-top: 18px; border-top: 1px solid #e5e5e0; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 10px; color: #555; }
+  .legend-dot { width: 11px; height: 11px; border-radius: 3px; }
+
+  hr.divider { border: none; border-top: 1px dashed #e0e0e0; margin: 14px 0; }
+
+  /* Case info banner */
+  .case-banner { background: #fff; border: 1px solid #e5e4dc; border-radius: 8px; padding: 10px 16px; margin-bottom: 22px; display: flex; align-items: center; gap: 16px; font-size: 11px; color: #555; }
+  .case-banner strong { color: #1a1a18; font-size: 12px; }
+  .case-tag { background: #FAEEDA; color: #633806; border-radius: 20px; padding: 2px 8px; font-size: 10px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="diagram">
+  <div class="title">Underwriter Copilot — System Architecture</div>
+  <div class="subtitle">Multi-Agent Credit Underwriting &nbsp;·&nbsp; LangGraph + Claude Sonnet + LlamaIndex &nbsp;·&nbsp; v2.0</div>
+
+  <div class="case-banner">
+    <strong>Demo Case:</strong> SME-2024-00891 — Meridian Textile Exports &nbsp;
+    <span class="case-tag">₹270L Loan</span>
+    <span style="margin-left:auto; color:#aaa">8 loan documents loaded · 5 specialist agents · 5 routing paths · Human-in-the-loop</span>
+  </div>
+
+  <!-- UI Layer -->
+  <div class="layer-wrap">
+    <div class="layer-label">Browser UI</div>
+    <div class="layer-body">
+      <div class="box box-full c-ui">
+        <span>ui/index.html — Simulated Loan Origination System</span>
+        <span class="box-sub">Case details panel · Run Deep Analysis · Agent ratings grid · Key metrics (DSCR, Credit Score, LTV) · Decision panel · Final report</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓ <span class="arrow-label">POST /agent/full-analysis &nbsp;·&nbsp; POST /agent/full-analysis/resume &nbsp;·&nbsp; POST /query</span></div>
+
+  <!-- API Layer -->
+  <div class="layer-wrap">
+    <div class="layer-label">REST API</div>
+    <div class="layer-body">
+      <div class="box box-full c-api">
+        <span>api.py — FastAPI &nbsp;·&nbsp; In-memory session store (_active_sessions)</span>
+        <span class="box-sub">/agent/full-analysis &nbsp;·&nbsp; /agent/full-analysis/resume &nbsp;·&nbsp; /query (RAG) &nbsp;·&nbsp; /health &nbsp;·&nbsp; /agent/scan (legacy)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <!-- Orchestrator -->
+  <div class="layer-wrap">
+    <div class="layer-label">Orchestrator</div>
+    <div class="layer-body">
+      <div class="box box-full c-orch">
+        <span>agent.py — LangGraph StateGraph + MemorySaver checkpoint</span>
+        <span class="box-sub">load_case_data → [parallel fan-out] → aggregate_findings → route_after_aggregation → [auto_decline_bureau | auto_decline_policy | escalate | fast_track_approve | human_review] → compile_report → END</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fan-out -->
+  <div class="layer-wrap">
+    <div class="layer-label"></div>
+    <div class="layer-body">
+      <div class="fork"><div class="fork-line"></div></div>
+      <div class="fan-label"><span>Parallel fan-out — all 5 agents run simultaneously</span></div>
+    </div>
+  </div>
+
+  <!-- Agents -->
+  <div class="layer-wrap">
+    <div class="layer-label">Agents</div>
+    <div class="layer-body">
+      <div class="box-row">
+        <div class="box c-agent">
+          <span>Financial</span>
+          <span class="box-sub">DSCR · Scorecard · Bank statement · Net margin · Synthesis</span>
+        </div>
+        <div class="box c-agent">
+          <span>Bureau</span>
+          <span class="box-sub">Credit score · Fraud model · CRILC · Hard stop flags</span>
+        </div>
+        <div class="box c-agent">
+          <span>Contradiction</span>
+          <span class="box-sub">Cross-doc mismatch · Severity rating · RAG scan</span>
+        </div>
+        <div class="box c-agent">
+          <span>Policy</span>
+          <span class="box-sub">Hard stops · Conditions · Warnings · Auto-decline flag</span>
+        </div>
+        <div class="box c-agent">
+          <span>Collateral</span>
+          <span class="box-sub">LTV · Coverage ratio · Valuation · Policy breach</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tool layers -->
+  <div class="layer-wrap" style="margin-top:8px;">
+    <div class="layer-label">Tools<br><span style="font-weight:400">(called by agents)</span></div>
+    <div class="layer-body">
+      <div class="box-row">
+        <div class="box c-l1">
+          <span>Layer 1 — Simulated APIs</span>
+          <span class="box-sub">Bureau API · Fraud model · CRILC · Valuation system · Core banking</span>
+        </div>
+        <div class="box c-l2">
+          <span>Layer 2 — Calculators</span>
+          <span class="box-sub">Financial ratios · Credit scorecard · Policy rules engine · LTV calc · Bank statement analyser</span>
+        </div>
+        <div class="box c-l3">
+          <span>Layer 3 — RAG</span>
+          <span class="box-sub">LlamaIndex · BAAI/bge-small-en-v1.5 · loan_docs/ (8 files) · Contradiction + policy + collateral queries</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- Fan-in -->
+  <div class="layer-wrap">
+    <div class="layer-label"></div>
+    <div class="layer-body">
+      <div class="fan-label"><span>Fan-in — all 5 agents must complete before aggregation</span></div>
+      <div class="fork"><div class="fork-line"></div></div>
+    </div>
+  </div>
+
+  <!-- Aggregate -->
+  <div class="layer-wrap">
+    <div class="layer-label">Aggregate</div>
+    <div class="layer-body">
+      <div class="box box-full c-orch">
+        <span>aggregate_findings</span>
+        <span class="box-sub">Overall risk (worst-of-5) · System recommendation · Executive summary (Claude) · Key metrics · Conditions · Hard stop flags</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓ <span class="arrow-label">route_after_aggregation() — priority-ordered conditional edges</span></div>
+
+  <!-- Routing layer -->
+  <div class="layer-wrap">
+    <div class="layer-label">Routing</div>
+    <div class="layer-body">
+      <div class="routing-grid">
+        <div class="box c-decline">
+          <span><span class="routing-label">auto_decline_bureau</span><span class="priority-tag">P1</span></span>
+          <span class="box-sub">Wilful defaulter · NPA · Bureau hard stop flags → immediate decline, no human review</span>
+        </div>
+        <div class="box c-decline">
+          <span><span class="routing-label">auto_decline_policy</span><span class="priority-tag">P2</span></span>
+          <span class="box-sub">DSCR &lt; 1.0 · Policy hard stop → auto_decline flag set by rules engine</span>
+        </div>
+        <div class="box c-escalat">
+          <span><span class="routing-label">escalate</span><span class="priority-tag">P3</span></span>
+          <span class="box-sub">≥ 2 HIGH contradictions → senior credit committee queue</span>
+        </div>
+        <div class="box c-approve">
+          <span><span class="routing-label">fast_track_approve</span><span class="priority-tag">P4</span></span>
+          <span class="box-sub">All agents LOW · no conditions · no hard stops → approved without human step</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Human review (P5 / standard path) -->
+  <div class="layer-wrap">
+    <div class="layer-label">Human Loop</div>
+    <div class="layer-body">
+      <div class="box box-full c-human">
+        <span>human_review &nbsp;<span class="interrupt-badge">⏸ interrupt()</span>&nbsp;<span class="priority-tag">P5 — standard path</span></span>
+        <span class="box-sub">Graph pauses · Underwriter reviews all findings in UI · Submits decision (approve / conditional / decline / escalate) · Graph resumes via Command(resume=decision)</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow">↓ <span class="arrow-label">underwriter_decision (or auto-decision) passed to compile_report</span></div>
+
+  <!-- Final report -->
+  <div class="layer-wrap">
+    <div class="layer-label">Output</div>
+    <div class="layer-body">
+      <div class="box box-full c-report">
+        <span>compile_report → Final Credit Decision Report</span>
+        <span class="box-sub">Executive summary · Financial analysis · Bureau &amp; fraud · Contradictions · Policy compliance · Collateral · Conditions to attach · Hard stops · Underwriter decision &amp; rationale</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Eval note -->
+  <div class="layer-wrap" style="margin-top:10px;">
+    <div class="layer-label">Eval Suite</div>
+    <div class="layer-body">
+      <div class="box-row">
+        <div class="box" style="background:#f5f5f2; border:1.5px solid #ddd; color:#555; flex:1">
+          <span style="font-size:11px;">Tier 1 — Tool correctness</span>
+          <span class="box-sub">10 tests · No API key · ~5s</span>
+        </div>
+        <div class="box" style="background:#f5f5f2; border:1.5px solid #ddd; color:#555; flex:1">
+          <span style="font-size:11px;">Tier 2 — Agent validation</span>
+          <span class="box-sub">5 tests · API key · ~5 min</span>
+        </div>
+        <div class="box" style="background:#f5f5f2; border:1.5px solid #ddd; color:#555; flex:1">
+          <span style="font-size:11px;">Tier 3 — RAG quality</span>
+          <span class="box-sub">4 keyword + LLM judge · ~15s</span>
+        </div>
+        <div class="box" style="background:#f5f5f2; border:1.5px solid #ddd; color:#555; flex:1">
+          <span style="font-size:11px;">Tier 4 — E2E orchestrator</span>
+          <span class="box-sub">2 tests · full graph · ~90s</span>
+        </div>
+        <div class="box" style="background:#f5f5f2; border:1.5px solid #ddd; color:#555; flex:1">
+          <span style="font-size:11px;">Tier 5 — Routing correctness</span>
+          <span class="box-sub">4 scenarios · bureau / policy / escalate / fast-track · ~5 min</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#c5d5f8;"></div>Browser UI</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b8d9f5;"></div>FastAPI</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#cfc2f0;"></div>LangGraph Orchestrator</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f5d99a;"></div>Specialist Agents (Claude)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f5b8ce;"></div>Layer 1 · Simulated APIs</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#b2dab6;"></div>Layer 2 · Deterministic Calculators</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#f0d988;"></div>Layer 3 · RAG (LlamaIndex)</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#ce93d8;"></div>Human-in-the-loop</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#80cbc4;"></div>Final Report</div>
+  </div>
+</div>
+</body>
+</html>

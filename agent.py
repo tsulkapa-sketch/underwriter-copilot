@@ -23,9 +23,10 @@ Human-in-the-loop:
 import os
 from typing import TypedDict, Annotated
 import operator
-from langgraph.graph import StateGraph, END, START
+from langgraph.graph import StateGraph
 from langgraph.checkpoint.memory import MemorySaver
 from langgraph.types import interrupt, Command
+from langgraph.graph import END, START
 from langchain_anthropic import ChatAnthropic
 
 from agents import (
@@ -120,6 +121,9 @@ class FullAnalysisState(TypedDict):
     # Human review
     underwriter_decision: str
     final_report:         str
+    # Conditional routing
+    routing_path:         str   # "human_review" | "auto_decline_bureau" | "auto_decline_policy" | "fast_track_approve" | "escalate"
+    routing_reason:       str   # human-readable explanation of why this path was taken
 
 
 # ── Node 1: Load case data and documents ──────────────────────────────────────
@@ -136,9 +140,12 @@ def load_case_data(state: FullAnalysisState) -> FullAnalysisState:
                     documents[filename] = f.read()
         print(f"[Orchestrator] Loaded {len(documents)} documents.")
 
-    # Use hardcoded case data for this simulation
+    # Use provided case_data if given (e.g. test scenarios), else fall back to Meridian defaults
     # In production: fetch from LOS by case_id
-    case_data = {**MERIDIAN_CASE_DATA, "case_id": state["case_id"]}
+    if state.get("case_data"):
+        case_data = {**state["case_data"], "case_id": state["case_id"]}
+    else:
+        case_data = {**MERIDIAN_CASE_DATA, "case_id": state["case_id"]}
 
     return {"case_data": case_data, "documents": documents}
 
@@ -283,6 +290,137 @@ Provide:
     return {"aggregated": aggregated}
 
 
+# ── Routing thresholds ────────────────────────────────────────────────────────
+ESCALATION_HIGH_CONTRADICTION_THRESHOLD = 2   # >= this many HIGH contradictions → escalate
+DSCR_HARD_STOP_THRESHOLD                = 1.0  # < 1.0 = policy hard stop (cannot service debt)
+
+
+# ── Routing function ──────────────────────────────────────────────────────────
+def route_after_aggregation(state: FullAnalysisState) -> str:
+    """
+    Determines which path to take after aggregation.
+    Priority order: bureau hard stop > policy hard stop > escalation > fast-track > human review.
+    Returns node name as string.
+    """
+    bur  = state.get("bureau", {})
+    pol  = state.get("policy", {})
+    con  = state.get("contradiction", {})
+    agg  = state.get("aggregated", {})
+    case = state.get("case_data", {})
+
+    # 1. Bureau hard stop — wilful defaulter or NPA (regulatory, non-negotiable)
+    bureau_hard_stops = bur.get("hard_stop_flags", [])
+    if case.get("wilful_defaulter") or case.get("npa_last_60_months") or bureau_hard_stops:
+        return "auto_decline_bureau"
+
+    # 2. Policy hard stop — DSCR below 1.0x (cannot service the debt)
+    if pol.get("policy_result", {}).get("auto_decline", False):
+        return "auto_decline_policy"
+
+    # 3. Escalation — too many HIGH contradictions for standard underwriter
+    #    Supports override via case_data for testing without different loan docs
+    high_contras = (
+        case.get("override_high_contradictions")
+        or con.get("key_metrics", {}).get("high", 0)
+    )
+    if high_contras >= ESCALATION_HIGH_CONTRADICTION_THRESHOLD:
+        return "escalate"
+
+    # 4. Fast-track approve — all agents LOW, no conditions, no hard stops
+    ratings    = agg.get("agent_ratings", {})
+    conditions = agg.get("conditions", [])
+    hard_stops = agg.get("hard_stop_flags", [])
+    all_low    = all(r == "LOW" for r in ratings.values()) if ratings else False
+    if all_low and not conditions and not hard_stops:
+        return "fast_track_approve"
+
+    # 5. Standard human review
+    return "human_review"
+
+
+# ── Routing nodes ─────────────────────────────────────────────────────────────
+
+def auto_decline_bureau(state: FullAnalysisState) -> dict:
+    """Auto-decline on bureau hard stop — no human review required."""
+    bur         = state.get("bureau", {})
+    hard_stops  = bur.get("hard_stop_flags", [])
+    case        = state.get("case_data", {})
+
+    reasons = []
+    if case.get("wilful_defaulter"):
+        reasons.append("entity/promoter on wilful defaulter list (Rule WD001)")
+    if case.get("npa_last_60_months"):
+        reasons.append("NPA classification in last 60 months (Rule NPA001)")
+    if hard_stops:
+        reasons.extend([str(h) for h in hard_stops])
+
+    reason = "BUREAU HARD STOP — Automatic decline. " + "; ".join(reasons) + ". No further review required per Section 2.2."
+    print(f"\n[Orchestrator] ⛔ Routing: AUTO DECLINE (bureau) — {reason[:80]}...")
+    return {
+        "routing_path":         "auto_decline_bureau",
+        "routing_reason":       reason,
+        "underwriter_decision": "decline",
+    }
+
+
+def auto_decline_policy(state: FullAnalysisState) -> dict:
+    """Auto-decline on policy hard stop — DSCR or other hard rule breach."""
+    pol        = state.get("policy", {})
+    hard_stops = pol.get("policy_result", {}).get("hard_stops", [])
+
+    if hard_stops:
+        top = hard_stops[0]
+        reason = f"POLICY HARD STOP — [{top.get('rule')}] {top.get('finding')} ({top.get('policy_ref')}). Automatic decline."
+    else:
+        reason = "POLICY HARD STOP — Auto-decline flagged by policy rules engine. Automatic decline."
+
+    print(f"\n[Orchestrator] ⛔ Routing: AUTO DECLINE (policy) — {reason[:80]}...")
+    return {
+        "routing_path":         "auto_decline_policy",
+        "routing_reason":       reason,
+        "underwriter_decision": "decline",
+    }
+
+
+def fast_track_approve(state: FullAnalysisState) -> dict:
+    """Fast-track approval — all agents LOW risk, no conditions or hard stops."""
+    agg     = state.get("aggregated", {})
+    ratings = agg.get("agent_ratings", {})
+    reason  = (
+        f"FAST-TRACK APPROVAL — All 5 agents returned LOW risk "
+        f"({', '.join(f'{k}={v}' for k,v in ratings.items())}). "
+        f"No conditions or hard stops triggered. Straight-through approval recommended."
+    )
+    print(f"\n[Orchestrator] ✅ Routing: FAST-TRACK APPROVE")
+    return {
+        "routing_path":         "fast_track_approve",
+        "routing_reason":       reason,
+        "underwriter_decision": "approve",
+    }
+
+
+def escalate_queue(state: FullAnalysisState) -> dict:
+    """Escalate to senior underwriter — too many HIGH severity contradictions."""
+    con          = state.get("contradiction", {})
+    case         = state.get("case_data", {})
+    high_count   = (
+        case.get("override_high_contradictions")
+        or con.get("key_metrics", {}).get("high", 0)
+    )
+    total_count  = con.get("key_metrics", {}).get("total", 0)
+    reason = (
+        f"ESCALATED — {high_count} HIGH severity contradictions detected across submitted documents "
+        f"({total_count} total). Exceeds threshold of {ESCALATION_HIGH_CONTRADICTION_THRESHOLD}. "
+        f"Requires senior underwriter review before decision can be made."
+    )
+    print(f"\n[Orchestrator] ↑ Routing: ESCALATE — {high_count} HIGH contradictions")
+    return {
+        "routing_path":         "escalate",
+        "routing_reason":       reason,
+        "underwriter_decision": "escalate",
+    }
+
+
 # ── Node 4: Human review (LangGraph interrupt) ─────────────────────────────────
 def human_review(state: FullAnalysisState) -> FullAnalysisState:
     """Pause for underwriter decision. Resumes when api.py supplies the decision."""
@@ -320,7 +458,11 @@ Enter underwriter decision: 'approve' | 'conditional_approve' | 'decline' | 'esc
 """
 
     decision = interrupt(summary)
-    return {"underwriter_decision": decision}
+    return {
+        "underwriter_decision": decision,
+        "routing_path":         "human_review",
+        "routing_reason":       "Standard human review — case routed to underwriter for decision.",
+    }
 
 
 # ── Node 5: Compile final report ───────────────────────────────────────────────
@@ -363,13 +505,18 @@ def compile_report(state: FullAnalysisState) -> FullAnalysisState:
             f"\n   Finding : {c.get('finding', 'N/A')}\n"
         )
 
+    routing_path   = state.get("routing_path", "human_review")
+    routing_reason = state.get("routing_reason", "")
+
     report = f"""# CREDIT DECISION REPORT
 {'='*60}
 Case Reference     : {state['case_id']}
 System Rec.        : {agg.get('system_recommendation')}
 UW Decision        : {decision}
 Overall Risk       : {agg.get('overall_risk')}
+Routing Path       : {routing_path.upper()}
 {'='*60}
+{f"ROUTING NOTE: {routing_reason}" + chr(10) if routing_reason else ""}
 
 ## 1. EXECUTIVE SUMMARY
 
@@ -439,15 +586,20 @@ def build_graph():
     builder = StateGraph(FullAnalysisState)
 
     # Nodes
-    builder.add_node("load_case_data",     load_case_data)
-    builder.add_node("run_financial",      run_financial)
-    builder.add_node("run_bureau",         run_bureau)
-    builder.add_node("run_contradiction",  run_contradiction)
-    builder.add_node("run_policy",         run_policy)
-    builder.add_node("run_collateral",     run_collateral)
-    builder.add_node("aggregate_findings", aggregate_findings)
-    builder.add_node("human_review",       human_review)
-    builder.add_node("compile_report",     compile_report)
+    builder.add_node("load_case_data",      load_case_data)
+    builder.add_node("run_financial",       run_financial)
+    builder.add_node("run_bureau",          run_bureau)
+    builder.add_node("run_contradiction",   run_contradiction)
+    builder.add_node("run_policy",          run_policy)
+    builder.add_node("run_collateral",      run_collateral)
+    builder.add_node("aggregate_findings",  aggregate_findings)
+    # Routing nodes
+    builder.add_node("auto_decline_bureau", auto_decline_bureau)
+    builder.add_node("auto_decline_policy", auto_decline_policy)
+    builder.add_node("fast_track_approve",  fast_track_approve)
+    builder.add_node("escalate_queue",      escalate_queue)
+    builder.add_node("human_review",        human_review)
+    builder.add_node("compile_report",      compile_report)
 
     # Entry
     builder.add_edge(START, "load_case_data")
@@ -466,28 +618,51 @@ def build_graph():
     ]:
         builder.add_edge(agent_node, "aggregate_findings")
 
-    # Linear tail
-    builder.add_edge("aggregate_findings", "human_review")
-    builder.add_edge("human_review",       "compile_report")
-    builder.add_edge("compile_report",      END)
+    # Conditional routing after aggregation
+    builder.add_conditional_edges(
+        "aggregate_findings",
+        route_after_aggregation,
+        {
+            "auto_decline_bureau": "auto_decline_bureau",
+            "auto_decline_policy": "auto_decline_policy",
+            "fast_track_approve":  "fast_track_approve",
+            "escalate":            "escalate_queue",
+            "human_review":        "human_review",
+        }
+    )
+
+    # All paths converge at compile_report
+    for routing_node in [
+        "auto_decline_bureau", "auto_decline_policy",
+        "fast_track_approve",  "escalate_queue", "human_review",
+    ]:
+        builder.add_edge(routing_node, "compile_report")
+
+    builder.add_edge("compile_report", END)
 
     memory = MemorySaver()
     return builder.compile(checkpointer=memory)
 
 
 # ── Public API used by api.py ──────────────────────────────────────────────────
-def run_full_analysis(case_id: str = "SME-2024-00891"):
+def run_full_analysis(case_id: str = "SME-2024-00891", case_data: dict = None):
     """
     Run the full multi-agent analysis.
-    Blocks at human_review interrupt — returns state dict with __interrupt__.
-    Call resume_analysis() with a decision to complete.
+
+    For the standard Meridian case: call with no arguments.
+    For test scenarios: pass case_data to override MERIDIAN_CASE_DATA.
+
+    Auto-routed cases (bureau/policy hard stop, fast-track, escalation) run to
+    completion and return final_report in state with no __interrupt__.
+    Human-review cases pause and return state with __interrupt__ — call
+    resume_analysis() with a decision to complete.
     """
-    graph = build_graph()
+    graph  = build_graph()
     config = {"configurable": {"thread_id": case_id}}
 
     initial_state = FullAnalysisState(
         case_id=case_id,
-        case_data={},
+        case_data=case_data or {},   # load_case_data fills this from MERIDIAN_CASE_DATA if empty
         documents={},
         financial={},
         bureau={},
@@ -497,6 +672,8 @@ def run_full_analysis(case_id: str = "SME-2024-00891"):
         aggregated={},
         underwriter_decision="",
         final_report="",
+        routing_path="",
+        routing_reason="",
     )
 
     print(f"\n{'='*60}")

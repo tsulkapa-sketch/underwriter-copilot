@@ -6,10 +6,12 @@ Usage:
   py -3.11 evals/run_evals.py                   # Tools + RAG        (~30s, no API key needed)
   py -3.11 evals/run_evals.py --agents           # + Agent validation (~5 min, needs API key)
   py -3.11 evals/run_evals.py --e2e              # + Full E2E         (~2 min, needs API key)
-  py -3.11 evals/run_evals.py --all              # Everything         (~8 min, needs API key)
+  py -3.11 evals/run_evals.py --routing          # + Routing evals    (~5 min, needs API key)
+  py -3.11 evals/run_evals.py --all              # Everything         (~10 min, needs API key)
   py -3.11 evals/run_evals.py --llm-judge        # + LLM-as-judge for RAG
   py -3.11 evals/run_evals.py --section tools    # Tools only
   py -3.11 evals/run_evals.py --section rag      # RAG only
+  py -3.11 evals/run_evals.py --section routing  # Routing only
 
 Exit code: 0 if all pass, 1 if any fail.
 """
@@ -25,6 +27,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 args         = set(sys.argv[1:])
 RUN_AGENTS   = "--agents"   in args or "--all" in args
 RUN_E2E      = "--e2e"      in args or "--all" in args
+RUN_ROUTING  = "--routing"  in args or "--all" in args
 LLM_JUDGE    = "--llm-judge" in args or "--all" in args
 SECTION      = None
 if "--section" in sys.argv:
@@ -102,11 +105,13 @@ def main():
     start       = time.time()
 
     mode_label = (
-        "Tools + RAG + Agents + E2E (--all)"  if RUN_E2E and RUN_AGENTS else
-        "Tools + RAG + Agents (--agents)"      if RUN_AGENTS else
-        "Tools + RAG + E2E (--e2e)"            if RUN_E2E else
-        f"Section: {SECTION}"                  if SECTION else
-        "Tools + RAG  [use --agents/--e2e/--all for more]"
+        "All tiers (--all)"                    if (RUN_E2E and RUN_AGENTS and RUN_ROUTING) else
+        "Tools + RAG + Agents + E2E (--all)"   if RUN_E2E and RUN_AGENTS else
+        "Tools + RAG + Agents (--agents)"       if RUN_AGENTS else
+        "Tools + RAG + E2E (--e2e)"             if RUN_E2E else
+        "Routing scenarios (--routing)"         if RUN_ROUTING else
+        f"Section: {SECTION}"                   if SECTION else
+        "Tools + RAG  [use --agents/--e2e/--routing/--all for more]"
     )
 
     print(f"\n{bar('═')}")
@@ -155,6 +160,25 @@ def main():
         for r in results:
             print_result(r)
         all_results.extend(results)
+
+    # ── Routing ──────────────────────────────────────────────
+    if RUN_ROUTING and (not SECTION or SECTION == "routing"):
+        section_header("ROUTING — Conditional Router Correctness  (4 tests, ~5 min)")
+        print(f"  {DIM}Runs full graph for each scenario, asserts routing_path{RESET}")
+        from evals.eval_routing import run_all_routing_tests
+        summary = run_all_routing_tests(verbose=True)
+        # Convert summary results to EvalResult format for unified reporting
+        from evals._base import EvalResult  # reuse the dataclass
+        for r in summary["results"]:
+            failures_str = "; ".join(r["failures"]) if r["failures"] else ""
+            all_results.append(EvalResult(
+                name     = f"routing/{r['case_id']} → {r['expected_routing']}",
+                passed   = r["passed"],
+                score    = 1.0 if r["passed"] else 0.0,
+                details  = f"actual={r['actual_routing']}  decision={r['decision']}",
+                error    = failures_str,
+                category = "routing",
+            ))
 
     elapsed = time.time() - start
     print_summary(all_results, elapsed)
